@@ -23,8 +23,8 @@
 					<td>{{ $convention->nombre }}</td>
 					<td>
 						<a class="btn btn-info btn-xs" href="{{ route('convention.edit', $convention->id) }}">Editar</a>
-						<form style="display:inline" method="POST" action="{{ route('convention.destroy', $convention->id) }}">
-							@csrf @method('DELETE')
+						<form style="display:inline" method="POST" action="{{ route('convention.updateState', $convention) }}">
+							@csrf @method('PATCH')
 							<button class="btn btn-danger btn-xs" type="submit">Eliminar</button>
 						</form>
 					</td>

@@ -30,8 +30,8 @@
 					<td>
 						<a class="btn btn-info btn-xs" href="{{ route('user.edit', $user->id) }}">Editar</a>
 						@if(auth()->user()->id != $user->id)
-							<form style="display:inline" method="POST" action="{{ route('user.destroy', $user->id) }}">
-								@csrf @method('DELETE')
+							<form style="display:inline" method="POST" action="{{ route('user.updateState', $user) }}">
+								@csrf @method('PATCH')
 								<button class="btn btn-danger btn-xs" type="submit">Eliminar</button>
 							</form>
 						@endif

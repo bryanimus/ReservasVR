@@ -29,8 +29,8 @@
 					</td>
 					<td>
 						<a class="btn btn-info btn-xs" href="{{ route('salon.edit', $salon->id) }}">Editar</a>
-						<form style="display:inline" method="POST" action="{{ route('salon.destroy', $salon->id) }}">
-							@csrf @method('DELETE')
+						<form style="display:inline" method="POST" action="{{ route('salon.updateState', $salon) }}">
+							@csrf @method('PATCH')
 							<button class="btn btn-danger btn-xs" type="submit">Eliminar</button>
 						</form>
 					</td>

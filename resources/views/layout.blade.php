@@ -13,8 +13,6 @@
 
     <!-- TimePicker-->
     <link rel="stylesheet" href="{{asset('TimePicker/bootstrap-timepicker.min.css')}}">
-
-    @yield('scripts')
 </head>
 <body>
 	<div id="app" class="d-flex flex-column h-screen justify-content-between">
@@ -29,5 +27,6 @@
 			{{ config('app.name') }} | Copyright @ {{ date('Y') }}
 		</footer>
 	</div>
+	@yield('scripts')
 </body>
 </html>

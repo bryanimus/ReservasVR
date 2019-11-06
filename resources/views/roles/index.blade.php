@@ -24,8 +24,8 @@
 					<td>{{ $role->nombre}}</td>
 					<td>
 						<a class="btn btn-info btn-xs" href="{{ route('role.edit', $role) }}">Editar</a>
-						<form style="display:inline" method="POST" action="{{ route('role.destroy', $role) }}">
-							@csrf @method('DELETE')
+						<form style="display:inline" method="POST" action="{{ route('role.updateState', $role) }}">
+							@csrf @method('PATCH')
 							<button class="btn btn-danger btn-xs" type="submit">Eliminar</button>
 						</form>
 					</td>

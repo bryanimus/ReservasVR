@@ -19,7 +19,7 @@ class RoleController extends Controller
     public function index()
     {
         return view('roles.index', [
-            'roles' => Role::oldest('id')->paginate(10)
+            'roles' => Role::whereNull('estado')->oldest('id')->paginate(10)
         ]);
     }
 
@@ -38,7 +38,7 @@ class RoleController extends Controller
     public function store(SaveRoleRequest $request){
         Role::create($request->validated());
 
-        return redirect()->route('role.index')->with('status','El rol fue creado con exito');
+        return redirect()->route('role.index')->with('status','El Rol fue Creado con Éxito');
     }
 
     public function edit(Role $role){
@@ -50,13 +50,17 @@ class RoleController extends Controller
     public function update(Role $role, SaveRoleRequest $request){
         $role->update($request->validated());
 
-        return redirect()->route('role.index')->with('status','El rol fue actualizado con exito');
+        return redirect()->route('role.index')->with('status','El Rol fue Actulizado con Éxito');
     }
 
     public function destroy(Role $role){
         $role->delete();
 
-        return redirect()->route('role.index')->with('status','El rol fue eliminado con exito');
+        return redirect()->route('role.index')->with('status','El Rol fue Eliminado con Éxito');
     }
 
+    public function updateState(Role $role){
+        $role->update(['estado' => 0]);
+        return redirect()->route('role.index')->with('status','El Rol fue Eliminado con Éxito');
+    }
 }

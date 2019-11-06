@@ -19,7 +19,7 @@ class ResourceController extends Controller
     public function index()
     {
         return view('resources.index', [
-            'resources' => Resource::oldest('id')->paginate(10)
+            'resources' => Resource::whereNull('estado')->oldest('id')->paginate(10)
         ]);
     }
 
@@ -38,7 +38,7 @@ class ResourceController extends Controller
     public function store(SaveResourceRequest $request){
         Resource::create($request->validated());
 
-        return redirect()->route('resource.index')->with('status','El recurso fue creado con exito');
+        return redirect()->route('resource.index')->with('status','El Recurso fue Creado con Éxito');
     }
 
     public function edit(Resource $resource){
@@ -50,12 +50,17 @@ class ResourceController extends Controller
     public function update(Resource $resource, SaveResourceRequest $request){
         $resource->update($request->validated());
 
-        return redirect()->route('resource.index')->with('status','El recurso fue actualizado con exito');
+        return redirect()->route('resource.index')->with('status','El Recurso fue Actualizado con Éxito');
     }
 
     public function destroy(Resource $resource){
         $resource->delete();
 
-        return redirect()->route('resource.index')->with('status','El recurso fue eliminado con exito');
+        return redirect()->route('resource.index')->with('status','El Recurso fue Eliminado con Éxito');
+    }
+
+    public function updateState(Resource $resource){
+        $resource->update(['estado' => 0]);
+        return redirect()->route('resource.index')->with('status','El Recurso fue Eliminado con Éxito');
     }
 }

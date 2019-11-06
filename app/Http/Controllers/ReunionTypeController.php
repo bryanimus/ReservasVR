@@ -14,7 +14,7 @@ class ReunionTypeController extends Controller
     public function index()
     {
         return view('tiposreunion.index', [
-            'tiposreunion' => ReunionType::oldest('id')->paginate(10)
+            'tiposreunion' => ReunionType::whereNull('estado')->oldest('id')->paginate(10)
         ]);
     }
 
@@ -33,7 +33,7 @@ class ReunionTypeController extends Controller
     public function store(SaveReunionTypeRequest $request){
         ReunionType::create($request->validated());
 
-        return redirect()->route('tiporeunion.index')->with('status','El tipo de reunion fue creado con exito');
+        return redirect()->route('tiporeunion.index')->with('status','El Tipo de Reunión fue Creado con Éxito');
     }
 
     public function edit(ReunionType $tiporeunion){
@@ -45,12 +45,17 @@ class ReunionTypeController extends Controller
     public function update(ReunionType $tiporeunion, SaveReunionTypeRequest $request){
         $tiporeunion->update($request->validated());
 
-        return redirect()->route('tiporeunion.index')->with('status','El tipo de reunion fue actualizado con exito');
+        return redirect()->route('tiporeunion.index')->with('status','El Tipo de Reunión fue Actualizado con Éxito');
     }
 
     public function destroy(ReunionType $tiporeunion){
         $tiporeunion->delete();
 
-        return redirect()->route('tiporeunion.index')->with('status','El tipo de reunion fue eliminado con exito');
+        return redirect()->route('tiporeunion.index')->with('status','El Tipo de Reunión fue Eliminado con Éxito');
+    }
+
+    public function updateState(ReunionType $tiporeunion){
+        $tiporeunion->update(['estado' => 0]);
+        return redirect()->route('tiporeunion.index')->with('status','El Tipo de Reunión fue Eliminado con Éxito');
     }
 }

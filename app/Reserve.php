@@ -16,4 +16,9 @@ class Reserve extends Model
     public function salon(){
         return $this->belongsTo(Salon::class);
     }
+
+    public function usuario($id){
+        $usuario = User::find($id);
+        return $usuario->name;
+    }
 }

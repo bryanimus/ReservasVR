@@ -15,7 +15,7 @@ class MinistryController extends Controller
     public function index()
     {
         return view('ministries.index', [
-            'ministries' => Ministry::oldest('id')->paginate(10)
+            'ministries' => Ministry::whereNull('estado')->oldest('id')->paginate(10)
         ]);
     }
 
@@ -26,7 +26,7 @@ class MinistryController extends Controller
     }
 
     public function create(){
-        $conventions = Convention::pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
         return view('ministries.create', [
             'ministry' => new Ministry,
             'conventions' => $conventions
@@ -36,11 +36,11 @@ class MinistryController extends Controller
     public function store(SaveMinistryRequest $request){
         Ministry::create($request->validated());
 
-        return redirect()->route('ministry.index')->with('status','El ministerio fue creado con exito');
+        return redirect()->route('ministry.index')->with('status','El Ministerio fue Creado con Éxito');
     }
 
     public function edit(Ministry $ministry){
-        $conventions = Convention::pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
         return view('ministries.edit', [
             'ministry' => $ministry,
             'conventions' => $conventions
@@ -50,12 +50,17 @@ class MinistryController extends Controller
     public function update(Ministry $ministry, SaveMinistryRequest $request){
         $ministry->update($request->validated());
 
-        return redirect()->route('ministry.index')->with('status','El ministerio fue actualizado con exito');
+        return redirect()->route('ministry.index')->with('status','El Ministerio fue Actualizado con Éxito');
     }
 
     public function destroy(Ministry $ministry){
         $ministry->delete();
 
-        return redirect()->route('ministry.index')->with('status','El ministerio fue eliminado con exito');
+        return redirect()->route('ministry.index')->with('status','El Ministerio fue Eliminado con Éxito');
+    }
+
+    public function updateState(Ministry $ministry){
+        $ministry->update(['estado' => 0]);
+        return redirect()->route('ministry.index')->with('status','El Ministerio fue Eliminado con Éxito');
     }
 }

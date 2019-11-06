@@ -17,13 +17,13 @@ class UserController extends Controller
     public function index()
     {
     	return view('users.index', [
-            'users' => User::oldest('id')->paginate(10)
+            'users' => User::whereNull('estado')->oldest('id')->paginate(10)
         ]);
     }
 
     public function edit(User $user){
-        $roles = Role::pluck('nombre', 'id');
-        $ministries = Ministry::pluck('nombre', 'id');
+        $roles = Role::whereNull('estado')->pluck('nombre', 'id');
+        $ministries = Ministry::whereNull('estado')->pluck('nombre', 'id');
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
@@ -32,8 +32,8 @@ class UserController extends Controller
     }
 
     public function create(){
-        $roles = Role::pluck('nombre', 'id');
-        $ministries = Ministry::pluck('nombre', 'id');
+        $roles = Role::whereNull('estado')->pluck('nombre', 'id');
+        $ministries = Ministry::whereNull('estado')->pluck('nombre', 'id');
         return view('users.create', [
             'user' => new User,
             'roles' => $roles,
@@ -44,18 +44,24 @@ class UserController extends Controller
     public function store(CreateUserRequest $request){
         User::create($request->validated());
 
-        return redirect()->route('user.index')->with('status','El usuario fue creado con exito');
+        return redirect()->route('user.index')->with('status','El Usuario fue Creado con Éxito');
     }
 
     public function update(User $user, SaveUserRequest $request){
        $user->update($request->validated());
 
-       return redirect()->route('user.index')->with('status','El usuario fue actualizado con exito');
+       return redirect()->route('user.index')->with('status','El Usuario fue Actualizado con Éxito');
     }
 
     public function destroy(User $user){
         $user->delete();
 
-        return redirect()->route('user.index')->with('status','El usuario fue eliminado con exito');
+        return redirect()->route('user.index')->with('status','El Usuario fue Eliminado con Éxito');
     }
+
+    public function updateState(User $user){
+        $user->update(['estado' => 0]);
+        return redirect()->route('user.index')->with('status','El Usuario fue Eliminado con Éxito');
+    }
+
 }

@@ -19,7 +19,7 @@
 			<label for="tipo">Tipo Recurso</label>
 			<select class="form-control
 						@error('tipo') is-invalid @else border-0 @enderror"
-				id="type" name="tipo">
+				id="type" name="tipo" @isset($resource->tipo) disabled @endisset>
 				<option value="">Seleccione Tipo Recurso</option>
 					<option value="1" @if ("1" == old('tipo', $resource->tipo)) selected="selected" @endif>Montaje</option>
 					<option value="2" @if ("2" == old('tipo', $resource->tipo)) selected="selected" @endif>Manteleria</option>

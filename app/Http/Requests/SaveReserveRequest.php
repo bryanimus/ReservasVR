@@ -24,9 +24,6 @@ class SaveReserveRequest extends FormRequest
     public function rules()
     {
         return [
-            'convention_id' => 'required',
-            'tamano_reunion' => 'required',
-            'ministry_id' => 'required'
         ];
     }
 

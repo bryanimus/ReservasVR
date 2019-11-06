@@ -31,7 +31,8 @@
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Operaciones</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="{{ route('reserva.Init') }}">Reservar</a>
+								<a class="dropdown-item" href="{{ route('reserva.Init') }}">Reservar Evento</a>
+								<a class="dropdown-item" href="{{ route('reserva.Index') }}">Gestionar Eventos</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown">

@@ -29,9 +29,9 @@
 						@endif
 					</td>
 					<td>
-						<a class="btn btn-info btn-xs" href="{{ route('ministry.edit', $ministry) }}">Editar</a>
-						<form style="display:inline" method="POST" action="{{ route('ministry.destroy', $ministry) }}">
-							@csrf @method('DELETE')
+						<a class="btn btn-info btn-xs" href="{{ route('ministry.edit', $ministry->id) }}">Editar</a>
+						<form style="display:inline" method="POST" action="{{ route('ministry.updateState', $ministry) }}">
+							@csrf @method('PATCH')
 							<button class="btn btn-danger btn-xs" type="submit">Eliminar</button>
 						</form>
 					</td>
