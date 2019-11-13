@@ -89,6 +89,13 @@
 					<label class="form-check-label" for="opcAprobar">Aprobar</label>
 				</div>
 			</div>
+			<div class="form-group col-md-4">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="visEvenPriv" name="visEvenPriv"
+					@if (old('visEvenPriv', $role->visEvenPriv)) checked @endif>
+					<label class="form-check-label" for="visEvenPriv">Visualizar Eventos Privados</label>
+				</div>
+			</div>
 		</div>
 
 		<button class="btn btn-primary btn-lg btn-block">{{ $btnText }}</button>

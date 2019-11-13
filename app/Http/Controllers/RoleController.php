@@ -13,7 +13,8 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function __construct(){
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
+        $this->middleware('checkRole:accRol');
     }
 
     public function index()
@@ -45,9 +46,11 @@ class RoleController extends Controller
         $accUsuario = 0; if (isset($request->accUsuario)) $accUsuario = 1;
         $opcReserva = 0; if (isset($request->opcReserva)) $opcReserva = 1;
         $opcAprobar = 0; if (isset($request->opcAprobar)) $opcAprobar = 1;
+        $visEvenPriv = 0; if (isset($request->visEvenPriv)) $visEvenPriv = 1;
         $dataInsert = [
             'nombre' => $request->nombre, 'descripcion' => $request->descripcion, 'accCentConv' => $accCentConv, 'accMinisterio' => $accMinisterio, 'accSalones' => $accSalones,
-            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar
+            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar,
+            'visEvenPriv' => $visEvenPriv
         ];
         Role::create($dataInsert);
 
@@ -70,9 +73,11 @@ class RoleController extends Controller
         $accUsuario = 0; if (isset($request->accUsuario)) $accUsuario = 1;
         $opcReserva = 0; if (isset($request->opcReserva)) $opcReserva = 1;
         $opcAprobar = 0; if (isset($request->opcAprobar)) $opcAprobar = 1;
+        $visEvenPriv = 0; if (isset($request->visEvenPriv)) $visEvenPriv = 1;
         $dataUpdate = [
             'nombre' => $request->nombre, 'descripcion' => $request->descripcion, 'accCentConv' => $accCentConv, 'accMinisterio' => $accMinisterio, 'accSalones' => $accSalones,
-            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar
+            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar,
+            'visEvenPriv' => $visEvenPriv
         ];
 
         $role->update($dataUpdate);

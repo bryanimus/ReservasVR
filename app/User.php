@@ -32,6 +32,15 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function accOpcion($opcion){
+        $accOpcion = false;
+        if ($this->role_id){
+            $role = Role::where('id', $this->role_id)->where($opcion,'1')->get();
+            if (count($role)) $accOpcion = true;
+        }
+        return $accOpcion;
+    }
+
     public function accParametrizacion(){
         $accParametrizacion = false;
         if ($this->role_id){

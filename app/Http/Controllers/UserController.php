@@ -11,7 +11,8 @@ use App\Http\Requests\SaveUserRequest;
 class UserController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
+        $this->middleware('checkRole:accUsuario');
     }
 
     public function index()

@@ -8,7 +8,8 @@ use App\Http\Requests\SaveReunionTypeRequest;
 class ReunionTypeController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
+        $this->middleware('checkRole:accTipoReunion');
     }
 
     public function index()

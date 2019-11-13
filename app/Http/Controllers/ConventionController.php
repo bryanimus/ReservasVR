@@ -8,7 +8,8 @@ use App\Http\Requests\SaveConventionRequest;
 class ConventionController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
+        $this->middleware('checkRole:accCentConv');
     }
 
     public function index()

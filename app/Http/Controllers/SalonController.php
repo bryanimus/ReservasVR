@@ -9,7 +9,8 @@ use App\Http\Requests\SaveSalonRequest;
 class SalonController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('auth');
+        $this->middleware('checkRole:accSalones');
     }
 
     public function index()

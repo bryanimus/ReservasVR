@@ -17,7 +17,9 @@ use App\Http\Requests\SaveReserveRequest;
 class ReservaController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except('getMinistry');
+        $this->middleware('auth');
+        $this->middleware('checkRole:opcReserva')->only('Init', 'Store', 'getMinistry');
+        $this->middleware('checkRole:opcAprobar')->only('IndexGestReserva', 'showReserva', 'StoreGestReserva');
     }
 
     public function Init(){
