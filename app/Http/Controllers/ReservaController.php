@@ -98,6 +98,7 @@ class ReservaController extends Controller
 
     public function showReserva(Reserve $id){
         $convention = Convention::find($id->convention_id)->nombre;
+        $salones = Salon::whereNull('estado')->where('convention_id', $id->convention_id)->pluck('nombre', 'id', 'capacidad');
         $ministry = Ministry::find($id->ministry_id)->nombre;
         $userEncargado = User::find($id->user_encargado_id)->name;
         $userAsignado = User::find($id->user_id)->name;
@@ -124,12 +125,22 @@ class ReservaController extends Controller
             'convention' => $convention, 'ministry' => $ministry, 'userEncargado' => $userEncargado, 'userAsignado' => $userAsignado, 'costoEvento' => $costoEvento,
             'proposito' => $id->proposito, 'fechaSolicitud' => $fechaSolicitud, 'fechaReunion' => $fechaReunion, 'horaInicio' => $horaInicio, 'horaFin' => $horaFin,
             'tipoReunion' => $tipoReunion, 'cantidadPersona' => $id->cantidad_persona, 'montaje' => $montaje, 'manteleria' => $manteleria, 'musical' => $musical,
-            'ReqTecnico' => $ReqTecnico, 'Cristaleria' => $Cristaleria, 'Alimento' => $Alimento
+            'ReqTecnico' => $ReqTecnico, 'Cristaleria' => $Cristaleria, 'Alimento' => $Alimento, 'observaciones' => $id->observaciones, 'salones' => $salones,
+            'id' => $id
         ];
         return view('reservas.frmGestReserva', $dataSend);
     }
 
-    public function StoreGestReserva(){
-
+    public function StoreGestReserva(SaveReserveRequest $request, Reserve $id){
+        $dataUpdate = [
+            'estado' => $request->estado,
+            'salon_id' => $request->salod_id,
+            'cost' => $request->cost,
+            'user_gestion_id' => auth()->user()->id,
+            'fecha_gestion' => now()->format('Ymd'),
+            'hora_gestion' => now()->format('Hi')
+        ];
+        $id->update($dataUpdate);
+        return redirect()->route('reserva.Index')->with('status','Se ha gestionado la reserva');
     }
 }

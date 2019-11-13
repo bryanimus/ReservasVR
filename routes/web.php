@@ -38,7 +38,7 @@ Route::post('/reserva','ReservaController@Store')->name('reserva.store');
 Route::get('/reserva/getMinistry/{id}','ReservaController@getMinistry')->name('reserva.getMinistry');
 Route::get('/gestReserva','ReservaController@IndexGestReserva')->name('reserva.Index');
 Route::get('/gestReserva/{id}','ReservaController@showReserva')->name('reserva.Show');
-Route::post('/gestReserva','ReservaController@StoreGestReserva')->name('reserva.storeGestReserva');
+Route::patch('/gestReserva/{id}','ReservaController@StoreGestReserva')->name('reserva.storeGestReserva');
 
 // Route::get('/portafolio','ProjectController@index')->name('projects.index');
 // Route::get('/portafolio/crear','ProjectController@create')->name('projects.create');
@@ -49,3 +49,5 @@ Route::post('/gestReserva','ReservaController@StoreGestReserva')->name('reserva.
 // Route::delete('/portafolio/{project}','ProjectController@destroy')->name('projects.destroy');
 
 Auth::routes(['register' => false]);
+Route::view('/registro','auth.register')->name('register');
+Route::post('/registro','Auth\RegisterController@RegisterStore')->name('register.Store');

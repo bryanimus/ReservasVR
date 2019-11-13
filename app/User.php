@@ -32,6 +32,36 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function accParametrizacion(){
+        $accParametrizacion = false;
+        if ($this->role_id){
+            $role = Role::find($this->role_id);
+            if ($role->accCentConv || $role->accMinisterio || $role->accSalones || $role->accTipoReunion ||  $role->accRecurso)
+                $accParametrizacion = true;
+        }
+        return $accParametrizacion;
+    }
+
+    public function accOperacion(){
+        $accOperacion = false;
+        if ($this->role_id){
+            $role = Role::find($this->role_id);
+            if ($role->opcReserva || $role->opcAprobar)
+                $accOperacion = true;
+        }
+        return $accOperacion;
+    }
+
+    public function accSeguridad(){
+        $accSeguridad = false;
+        if ($this->role_id){
+            $role = Role::find($this->role_id);
+            if ($role->accRol || $role->accUsuario)
+                $accSeguridad = true;
+        }
+        return $accSeguridad;
+    }
+
     public function setPasswordAttribute($password){
         $this->attributes['password'] = bcrypt($password);
     }

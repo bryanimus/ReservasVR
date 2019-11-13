@@ -3,7 +3,8 @@
 			<label for="nombre">Nombre</label>
 			<input class="form-control bg-light shadow-sm
 							@error('nombre') is-invalid @else border-0 @enderror"
-				id="nombre" type="text" name="nombre" value="{{ old('nombre', $resource->nombre) }}">
+				id="nombre" type="text" name="nombre" value="{{ old('nombre', $resource->nombre) }}"
+				onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">
 			@error('nombre') @include('partials.showError')	@enderror
 		</div>
 
@@ -11,7 +12,7 @@
 			<label for="descripcion">Descripcion</label>
 			<textarea class="form-control bg-light shadow-sm
 							@error('descripcion') is-invalid @else border-0 @enderror"
-				id="descripcion" name="descripcion">{{ old('descripcion', $resource->descripcion) }}</textarea>
+				id="descripcion" name="descripcion" onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">{{ old('descripcion', $resource->descripcion) }}</textarea>
 			@error('descripcion') @include('partials.showError') @enderror
 		</div>
 
@@ -19,7 +20,7 @@
 			<label for="tipo">Tipo Recurso</label>
 			<select class="form-control
 						@error('tipo') is-invalid @else border-0 @enderror"
-				id="type" name="tipo" @isset($resource->tipo) disabled @endisset>
+				id="type" name="tipo" onchange="removeClassCmb(this);" @isset($resource->tipo) disabled @endisset>
 				<option value="">Seleccione Tipo Recurso</option>
 					<option value="1" @if ("1" == old('tipo', $resource->tipo)) selected="selected" @endif>Montaje</option>
 					<option value="2" @if ("2" == old('tipo', $resource->tipo)) selected="selected" @endif>Manteleria</option>

@@ -53917,7 +53917,10 @@ $('.datepicker').datepicker({
   language: "es",
   autoclose: true,
   startDate: "+1d"
+}).on('changeDate', function (ev) {
+  document.getElementById('fecha_reunion').classList.remove('is-invalid');
 });
+;
 
 /***/ }),
 

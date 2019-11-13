@@ -3,7 +3,8 @@
 			<label for="nombre">Nombre</label>
 			<input class="form-control bg-light shadow-sm
 							@error('nombre') is-invalid @else border-0 @enderror"
-				id="nombre" type="text" name="nombre" value="{{ old('nombre', $role->nombre) }}">
+				id="nombre" type="text" name="nombre" value="{{ old('nombre', $role->nombre) }}"
+				onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">
 			@error('nombre') @include('partials.showError')	@enderror
 		</div>
 
@@ -11,7 +12,7 @@
 			<label for="descripcion">Descripcion</label>
 			<textarea class="form-control bg-light shadow-sm
 							@error('descripcion') is-invalid @else border-0 @enderror"
-				id="descripcion" name="descripcion">{{ old('descripcion', $role->descripcion) }}</textarea>
+				id="descripcion" name="descripcion" onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">{{ old('descripcion', $role->descripcion) }}</textarea>
 			@error('descripcion') @include('partials.showError') @enderror
 		</div>
 
@@ -20,19 +21,22 @@
 		<div class="form-row">
 			<div class="form-group col-md-4">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accCentConv" name="accCentConv">
+					<input class="form-check-input" type="checkbox" id="accCentConv" name="accCentConv"
+					@if (old('accCentConv', $role->accCentConv)) checked @endif>
 					<label class="form-check-label" for="accCentConv">Centros de Convenciones</label>
 				</div>
 			</div>
 			<div class="form-group col-md-4">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accMinisterio" name="accMinisterio">
+					<input class="form-check-input" type="checkbox" id="accMinisterio" name="accMinisterio"
+					@if (old('accMinisterio', $role->accMinisterio)) checked @endif>
 					<label class="form-check-label" for="accMinisterio">Ministerios</label>
 				</div>
 			</div>
 			<div class="form-group col-md-4">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accSalones" name="accSalones">
+					<input class="form-check-input" type="checkbox" id="accSalones" name="accSalones"
+					@if (old('accSalones', $role->accSalones)) checked @endif>
 					<label class="form-check-label" for="accSalones">Salones</label>
 				</div>
 			</div>
@@ -40,25 +44,29 @@
 		<div class="form-row">
 			<div class="form-group col-md-3">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accTipoReunion" name="accTipoReunion">
+					<input class="form-check-input" type="checkbox" id="accTipoReunion" name="accTipoReunion"
+					@if (old('accTipoReunion', $role->accTipoReunion)) checked @endif>
 					<label class="form-check-label" for="accTipoReunion">Tipos de Reuniones</label>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accRecurso" name="accRecurso">
+					<input class="form-check-input" type="checkbox" id="accRecurso" name="accRecurso"
+					@if (old('accRecurso', $role->accRecurso)) checked @endif>
 					<label class="form-check-label" for="accRecurso">Recursos</label>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accRol" name="accRol">
+					<input class="form-check-input" type="checkbox" id="accRol" name="accRol"
+					@if (old('accRol', $role->accRol)) checked @endif>
 					<label class="form-check-label" for="accRol">Roles</label>
 				</div>
 			</div>
 			<div class="form-group col-md-3">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="accUsuario" name="accUsuario">
+					<input class="form-check-input" type="checkbox" id="accUsuario" name="accUsuario"
+					@if (old('accUsuario', $role->accUsuario)) checked @endif>
 					<label class="form-check-label" for="accRol">Usuarios</label>
 				</div>
 			</div>
@@ -69,14 +77,16 @@
 		<div class="form-row">
 			<div class="form-group col-md-4">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="opcReserva" name="opcReserva">
+					<input class="form-check-input" type="checkbox" id="opcReserva" name="opcReserva"
+					@if (old('opcReserva', $role->opcReserva)) checked @endif>
 					<label class="form-check-label" for="opcReserva">Reservar</label>
 				</div>
 			</div>
 			<div class="form-group col-md-4">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="opcReserva" name="opcReserva">
-					<label class="form-check-label" for="opcReserva">Aprobar</label>
+					<input class="form-check-input" type="checkbox" id="opcAprobar" name="opcAprobar"
+					@if (old('opcAprobar', $role->opcAprobar)) checked @endif>
+					<label class="form-check-label" for="opcAprobar">Aprobar</label>
 				</div>
 			</div>
 		</div>

@@ -6,6 +6,7 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="stylesheet" href="/css/app.css">
     <script src="{{asset('js/app.js')}}" defer></script>
+    <script src="{{asset('js/Scripts.js')}}" defer></script>
 
     <!-- DatePicker-->
     <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}">

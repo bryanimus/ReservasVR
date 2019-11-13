@@ -36,7 +36,20 @@ class RoleController extends Controller
     }
 
     public function store(SaveRoleRequest $request){
-        Role::create($request->validated());
+        $accCentConv = 0; if (isset($request->accCentConv)) $accCentConv = 1;
+        $accMinisterio = 0; if (isset($request->accMinisterio)) $accMinisterio = 1;
+        $accSalones = 0; if (isset($request->accSalones)) $accSalones = 1;
+        $accTipoReunion = 0; if (isset($request->accTipoReunion)) $accTipoReunion = 1;
+        $accRecurso = 0; if (isset($request->accRecurso)) $accRecurso = 1;
+        $accRol = 0; if (isset($request->accRol)) $accRol = 1;
+        $accUsuario = 0; if (isset($request->accUsuario)) $accUsuario = 1;
+        $opcReserva = 0; if (isset($request->opcReserva)) $opcReserva = 1;
+        $opcAprobar = 0; if (isset($request->opcAprobar)) $opcAprobar = 1;
+        $dataInsert = [
+            'nombre' => $request->nombre, 'descripcion' => $request->descripcion, 'accCentConv' => $accCentConv, 'accMinisterio' => $accMinisterio, 'accSalones' => $accSalones,
+            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar
+        ];
+        Role::create($dataInsert);
 
         return redirect()->route('role.index')->with('status','El Rol fue Creado con Éxito');
     }
@@ -48,7 +61,21 @@ class RoleController extends Controller
     }
 
     public function update(Role $role, SaveRoleRequest $request){
-        $role->update($request->validated());
+        $accCentConv = 0; if (isset($request->accCentConv)) $accCentConv = 1;
+        $accMinisterio = 0; if (isset($request->accMinisterio)) $accMinisterio = 1;
+        $accSalones = 0; if (isset($request->accSalones)) $accSalones = 1;
+        $accTipoReunion = 0; if (isset($request->accTipoReunion)) $accTipoReunion = 1;
+        $accRecurso = 0; if (isset($request->accRecurso)) $accRecurso = 1;
+        $accRol = 0; if (isset($request->accRol)) $accRol = 1;
+        $accUsuario = 0; if (isset($request->accUsuario)) $accUsuario = 1;
+        $opcReserva = 0; if (isset($request->opcReserva)) $opcReserva = 1;
+        $opcAprobar = 0; if (isset($request->opcAprobar)) $opcAprobar = 1;
+        $dataUpdate = [
+            'nombre' => $request->nombre, 'descripcion' => $request->descripcion, 'accCentConv' => $accCentConv, 'accMinisterio' => $accMinisterio, 'accSalones' => $accSalones,
+            'accTipoReunion' => $accTipoReunion, 'accRecurso' => $accRecurso, 'accRol' => $accRol, 'accUsuario' => $accUsuario, 'opcReserva' => $opcReserva, 'opcAprobar' => $opcAprobar
+        ];
+
+        $role->update($dataUpdate);
 
         return redirect()->route('role.index')->with('status','El Rol fue Actulizado con Éxito');
     }
