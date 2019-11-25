@@ -17,13 +17,24 @@ class ResourceController extends Controller
         $this->middleware('checkRole:accRecurso');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('resources.index', [
-            'resources' => Resource::whereNull('estado')->oldest('id')->paginate(10)
-        ]);
+        if (!$request->has('tipo'))
+            return view('resources.index', [
+                'resources' => Resource::whereNull('estado')->oldest('id')->paginate(10),
+                'TipoFilter' => 0, 'Pag' => 10
+            ]);
+        else
+        {
+            $resources = Resource::whereNull('estado');
+            if ($request->tipo != "0")
+                $resources->where('tipo', $request->tipo);
+            return view('resources.index', [
+                'resources' => $resources->oldest('id')->paginate($request->cntPage)->appends(request()->query()),
+                'TipoFilter' => $request->tipo, 'Pag' => $request->cntPage
+            ]);
+        }
     }
-
     public function show(Resource $resource){
         return view('resources.show', [
             'resource' => $resource

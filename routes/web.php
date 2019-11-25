@@ -22,6 +22,7 @@ Route::resource('salon', 'SalonController');
 Route::resource('tiporeunion', 'ReunionTypeController');
 Route::resource('ministry', 'MinistryController');
 Route::resource('resource', 'ResourceController');
+
 Route::resource('department', 'DepartmentController');
 
 // Actualizar Estado Eliminado
