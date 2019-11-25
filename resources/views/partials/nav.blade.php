@@ -24,6 +24,7 @@
 									@if (auth()->user()->role->accCentConv) <a class="dropdown-item" href="{{ route('convention.index') }}">Centros de Convenciones</a> @endif
 									@if (auth()->user()->role->accMinisterio) <a class="dropdown-item" href="{{ route('ministry.index') }}">Ministerios</a> @endif
 									@if (auth()->user()->role->accSalones) <a class="dropdown-item" href="{{ route('salon.index') }}">Salones</a> @endif
+									@if (auth()->user()->role->accDepto) <a class="dropdown-item" href="{{ route('department.index') }}">Departamentos</a> @endif
 									@if (auth()->user()->role->accTipoReunion) <a class="dropdown-item" href="{{ route('tiporeunion.index') }}">Tipos de Reuniones</a> @endif
 									@if (auth()->user()->role->accRecurso) <a class="dropdown-item" href="{{ route('resource.index') }}">Recursos</a> @endif
 								</div>
@@ -32,10 +33,11 @@
 						@if (auth()->user()->accOperacion())
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Operaciones</a>
+								Reservaciones</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-									@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="{{ route('reserva.Init') }}">Reservar Evento</a> @endif
-									@if (auth()->user()->role->opcAprobar) <a class="dropdown-item" href="{{ route('reserva.Index') }}">Gestionar Eventos</a> @endif
+									@if (auth()->user()->role->opcSolicitar) <a class="dropdown-item" href="{{ route('reserva.Init') }}">Solicitud de Reserva</a> @endif
+									@if (auth()->user()->role->opcAprobar) <a class="dropdown-item" href="{{ route('reserva.Index') }}">Aprobación de Reservas</a> @endif
+									@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="#">Reservar Eventos</a> @endif
 								</div>
 							</li>
 						@endif
@@ -53,7 +55,6 @@
 					@guest
 						<li class="nav-item">
 							<a class="nav-link" href="{{ route('login') }}">Ingresar</a>
-							<a class="nav-link" href="{{ route('register') }}">Registrar</a>
 						</li>
 					@else
 						<li class="nav-item">

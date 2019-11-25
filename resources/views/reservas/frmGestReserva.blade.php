@@ -5,46 +5,17 @@
 @section('scripts')
 	<script type="text/javascript">
 		var validateForm;
-		var showFields;
 
 		validateForm = function (){
 			var blnContinue = true;
-			document.getElementById('estado').classList.remove('is-invalid'); document.getElementById('salon_id').classList.remove('is-invalid');
-			document.getElementById('cost').classList.remove('is-invalid');
+			document.getElementById('estado').classList.remove('is-invalid');
 
 			if (document.getElementById('estado').selectedIndex == 0){ document.getElementById('estado').classList.add('is-invalid'); blnContinue = false;}
-			if (document.getElementById('estado').value == "3" && document.getElementById('salon_id').selectedIndex == 0) { document.getElementById('salon_id').classList.add('is-invalid'); blnContinue = false;}
-			if (document.getElementById('estado').value == "3" && document.getElementById('cost').style.display == 'block' && parseFloat(document.getElementById('cost').value) == 0) {
-				document.getElementById('cost').classList.add('is-invalid'); blnContinue = false;
-			}
 
 			if (blnContinue)
 				frmGestReserva.submit();
 			else
 				alert('Favor Completar Información Requerida');
-		}
-
-		showFields = function(){
-			var objEstado = document.getElementById('estado');
-			if (estado.value == "3"){
-				document.getElementById('salon_id_lbl').style.display = 'block';
-				document.getElementById('salon_id').style.display = 'block';
-				@if ($costoEvento == "Presupuesto")
-					document.getElementById('cost_lbl').style.display = 'block';
-					document.getElementById('cost').style.display = 'block';
-				@endif
-			}
-			else
-			{
-				document.getElementById('salon_id_lbl').style.display = 'none';
-				document.getElementById('salon_id').style.display = 'none';
-				document.getElementById('cost_lbl').style.display = 'none';
-				document.getElementById('cost').style.display = 'none';
-			}
-		}
-
-		setTwoNumberDecimal = function(obj){
-			obj.value = parseFloat(obj.value).toFixed(2);
 		}
 	</script>
 @endsection
@@ -52,33 +23,34 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-sm-10 col-lg-10 mx-auto">
-			<form id="frmGestReserva" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reserva.storeGestReserva', $id) }}">
+			<form id="frmGestReserva" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reserva.storeGestReserva', $reserva->ID_RESERVA) }}">
 				@method('PATCH')
 				@csrf
 
-				<h2><center>Información Reserva del Evento</center></h2>
+				<h2><center>Aprobación de Reserva</center></h2>
 				<hr>
 				<table class="table table-sm table-bordered" id ="tblInfoReserva" name ="tblInfoReserva">
 					<thead class="thead-light"><th style="width: 30%"><center>Elemento</center></th><th style="width: 70%"><center>Detalle</center></th></tr></thead>
 					<tbody>
-						<tr><td>Fecha de Solicitud</td><td>{{ $fechaSolicitud }}</td></tr>
-						<tr><td>Fecha/Hora de Reunión</td><td>{{ $fechaReunion . ' ' . $horaInicio . ' - ' . $horaFin }}</td></tr>
-						<tr><td>Encargado del Evento</td><td>{{ $userEncargado }}</td></tr>
-						<tr><td>Creador del Evento</td><td>{{ $userAsignado }}</td></tr>
-						<tr><td>Centro de Convención</td><td>{{ $convention }}</td></tr>
-						<tr><td>Ministerio</td><td>{{ $ministry }}</td></tr>
-						<tr><td>Costo del Evento</td><td>{{ $costoEvento }}</td></tr>
-						<tr><td>Tipo de Reunión</td><td>{{ $tipoReunion }}</td></tr>
-						<tr><td>Propósito de la Reunión</td><td>{{ $proposito }}</td></tr>
-						<tr><td>Cantidad de Personas</td><td>{{ $cantidadPersona }}</td></tr>
-						<tr><td>Tipo de Montaje</td><td>{{ $montaje }}</td></tr>
-						<tr><td>Tipo de Manteleria</td><td>@if (!is_null($manteleria)){{ $manteleria }} @endif</td></tr>
-						<tr><td>Musical</td><td>@if (!is_null($musical)) {{ $musical }} @endif</td></tr>
+						<tr><td>Nombre Reserva</td><td>{{ $reserva->NOMBRE_RESERVA }}</td></tr>
+						<tr><td>Fecha de Solicitud</td><td>{{ $reserva->FECHA_SOLICITUD }}</td></tr>
+						<tr><td>Fecha/Hora de Reunión</td><td>{{ $reserva->FECHA_REUNION . ' ' . $reserva->HORA_INICIO . ' - ' . $reserva->HORA_FIN }}</td></tr>
+						<tr><td>Encargado del Evento</td><td>{{ $reserva->USUARIO_ENCARGADO }}</td></tr>
+						<tr><td>Usuario Solicitante</td><td>{{ $reserva->USUARIO_SOLICITA }}</td></tr>
+						<tr><td>Centro de Convención</td><td>{{ $reserva->CONVENCION }}</td></tr>
+						<tr><td>Ministerio</td><td>{{ $reserva->MINISTERIO }}</td></tr>
+						<tr><td>Costo del Evento</td><td>{{ $reserva->COSTO_EVENTO }}</td></tr>
+						<tr><td>Tipo de Reunión</td><td>{{ $reserva->TIPO_REUNION }}</td></tr>
+						<tr><td>Propósito de la Reunión</td><td>{{ $reserva->PROPOSITO }}</td></tr>
+						<tr><td>Cantidad de Personas</td><td>{{ $reserva->CANTIDAD_PERSONA }}</td></tr>
+						<tr><td>Tipo de Montaje</td><td>{{ $reserva->MONTAJE }}</td></tr>
+						<tr><td>Tipo de Manteleria</td><td>{{ $reserva->MANTELERIA }} </td></tr>
+						<tr><td>Musical</td><td>{{ $reserva->MUSICAL }}</td></tr>
 						<tr><td>Requerimiento Técnico</td><td>
 							@if (count($ReqTecnico))
 							<ul>
 								@foreach($ReqTecnico as $value)
-									<li>{{ $value->nombre }}</li>
+									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</li>
 								@endforeach
 							</ul>
 							@endif
@@ -87,7 +59,7 @@
 							@if (count($Cristaleria))
 							<ul>
 								@foreach($Cristaleria as $value)
-									<li>{{ $value->nombre }}</li>
+									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</li>
 								@endforeach
 							</ul>
 							@endif
@@ -96,36 +68,27 @@
 							@if (count($Alimento))
 							<ul>
 								@foreach($Alimento as $value)
-									<li>{{ $value->nombre }}</li>
+									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO . ' (' . $value->RECURSO_DESC . ')'}}</li>
 								@endforeach
 							</ul>
 							@endif
 						</td></tr>
-						<tr><td>Observaciones Adicionales</td><td>@if (!is_null($observaciones)) {{ $observaciones }} @endif</td></tr>
+						<tr><td>Observaciones Solicitud</td><td> {{ $reserva->OBSERVACIONES }} </td></tr>
 					</tbody>
 				</table>
 
 				<div class="form-row">
 					<div class="form-group col-md-4">
 						<label for="estado">Estado <strong>(*)</strong></label>
-						<select class ="form-control" name="estado" id= "estado" onchange="removeClassCmb(this);showFields();">
+						<select class ="form-control" name="estado" id= "estado" onchange="removeClassCmb(this);">
 							<option value="">Seleccione Estado</option>
 							<option value="2">Rechazado</option>
 							<option value="3">Aprobado</option>
 						</select>
 					</div>
-					<div class="form-group col-md-4">
-						<label id="salon_id_lbl" for="salon_id" style="display:none;">Salón <strong>(*)</strong></label>
-						<select class ="form-control" id="salon_id" name="salon_id" onchange="removeClassCmb(this);" style="display:none;">
-							<option value="">Seleccione Salón</option>
-							@foreach ($salones as $id => $name)
-								<option value="{{ $id }}">{{ $name }}</option>
-							@endforeach
-						</select>
-					</div>
-					<div class="form-group col-md-4">
-						<label id="cost_lbl" for="cost" style="display:none;">Presupuesto <strong>(*)</strong></label>
-						<input type="number" class ="form-control" name="cost" id="cost" style="display:none;" onchange="setTwoNumberDecimal(this);" onfocusout="removeClassNumber(this);" min="0" max="100000000" step="0.01" value="0.00" />
+					<div class="form-group col-md-8">
+						<label for="observacion_aprueba">Observaciones</strong></label>
+						<textarea class ="form-control" id="observacion_aprueba" name="observacion_aprueba" onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);"></textarea>
 					</div>
 				</div>
 

@@ -6,6 +6,14 @@ function removeClassNumber(obj){
     if (parseFloat(obj.value) != 0) obj.classList.remove('is-invalid');
 }
 
+function limitNumberMax(obj){
+    if (parseInt(obj.value) > obj.max) obj.value = obj.max;
+}
+
+function limitNumberMin(obj){
+    if (parseInt(obj.value) < obj.min || obj.value == '' || obj.value == '-') obj.value = obj.min;
+}
+
 function ValidaCaracter(e) {
     var evt = e || window.event;
     var tecla = evt.which || evt.keyCode;

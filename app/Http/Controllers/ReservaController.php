@@ -13,12 +13,13 @@ use Webpatser\Uuid\Uuid;
 use Illuminate\Http\Request;
 use Carbon;
 use App\Http\Requests\SaveReserveRequest;
+use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-        $this->middleware('checkRole:opcReserva')->only('Init', 'Store', 'getMinistry');
+        $this->middleware('checkRole:opcSolicitar')->only('Init', 'Store', 'getMinistry', 'getResourceDesc');
         $this->middleware('checkRole:opcAprobar')->only('IndexGestReserva', 'showReserva', 'StoreGestReserva');
     }
 
@@ -46,6 +47,7 @@ class ReservaController extends Controller
         $hora_fin = str_replace(":", "", $request->hora_fin);
 
         $dataInsert = [
+            'nombre' => $request->nombre,
             'convention_id' => $request->convention_id,
             'tamano_reunion' => $request->tamano_reunion,
             'user_id' => auth()->user()->id,
@@ -71,18 +73,18 @@ class ReservaController extends Controller
 
         // Ingreso Requerimientos Técnicos
        if (isset($request->idReq))
-            foreach ($request->idReq as $valor)
-                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $valor ]);
+            for ($i = 0; $i < count($request->idReq); $i++)
+                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $request->idReq[$i], 'cantidad' => $request->numReq[$i] ]);
 
         // Ingreso Cristalería y Loza
         if (isset($request->idCristaleria))
-            foreach ($request->idCristaleria as $valor)
-                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $valor ]);
+            for ($i = 0; $i < count($request->idCristaleria); $i++)
+                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $request->idCristaleria[$i], 'cantidad' => $request->numcristaleria[$i] ]);
 
          // Ingreso Alimentos y Bebidas
         if (isset($request->idalimento))
-            foreach ($request->idalimento as $valor)
-                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $valor ]);
+            for ($i = 0; $i < count($request->idalimento); $i++)
+                ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $request->idalimento[$i], 'cantidad' => $request->numalimento[$i] ]);
 
         return redirect()->route('home')->with('status','Su Reserva Ha Sido Creada con Éxito');
     }
@@ -92,6 +94,11 @@ class ReservaController extends Controller
         return $ministries;
     }
 
+    public function getResourceDesc($id){
+        $resource = Resource::select('descripcion')->find($id);
+        return $resource->descripcion;
+    }
+
     public function IndexGestReserva() {
         return view('reservas.index', [
             'reserves' => Reserve::where('estado' , '1')->oldest('id')->paginate(10)
@@ -99,36 +106,12 @@ class ReservaController extends Controller
     }
 
     public function showReserva(Reserve $id){
-        $convention = Convention::find($id->convention_id)->nombre;
-        $salones = Salon::whereNull('estado')->where('convention_id', $id->convention_id)->pluck('nombre', 'id', 'capacidad');
-        $ministry = Ministry::find($id->ministry_id)->nombre;
-        $userEncargado = User::find($id->user_encargado_id)->name;
-        $userAsignado = User::find($id->user_id)->name;
-        if ($id->costo_evento == 1) $costoEvento = 'Presupuesto'; else $costoEvento = 'Pago Directo';
-        $fechaSolicitud = $id->fecha_solicitud;
-        $fechaSolicitud = substr($fechaSolicitud, 6, 2) . '/' . substr($fechaSolicitud, 4, 2) . '/' . substr($fechaSolicitud, 0, 4);
-        $fechaReunion = $id->fecha_reunion;
-        $fechaReunion = substr($fechaReunion, 6, 2) . '/' . substr($fechaReunion, 4, 2) . '/' . substr($fechaReunion, 0, 4);
-        $horaInicio = substr('0000' . $id->hora_inicio, -4);
-        $horaInicio = substr($horaInicio, 0, 2) . ':' . substr($horaInicio, 2, 2);
-        $horaFin = substr('0000' . $id->hora_fin, -4);
-        $horaFin = substr($horaFin, 0, 2) . ':' . substr($horaFin, 2, 2);
-        $tipoReunion = ReunionType::find($id->reuniontype_id)->nombre;
-        $montaje = Resource::find($id->montaje_id)->nombre;
-        $manteleria = Resource::find($id->manteleria_id);
-        if (!is_null($manteleria)) $manteleria = $manteleria->nombre;
-        $musical = Resource::find($id->musical_id);
-        if (!is_null($musical)) $musical = $musical->nombre;
-        $ReqTecnico = Resource::select('resources.nombre')->join('reserveresource', 'resources.id', '=', 'reserveresource.resource_id')->where('resources.tipo', '3')->get();
-        $Cristaleria = Resource::select('resources.nombre')->join('reserveresource', 'resources.id', '=', 'reserveresource.resource_id')->where('resources.tipo', '5')->get();
-        $Alimento = Resource::select('resources.nombre')->join('reserveresource', 'resources.id', '=', 'reserveresource.resource_id')->where('resources.tipo', '6')->get();
-
+        $reserva = DB::table('vRESERVA')->where('ID_RESERVA', $id->id)->first(); // Consultar Información General de la Reserva
+        $ReqTecnico = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '3')->where('RESERVE_ID', $id->id)->get();
+        $Cristaleria = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '5')->where('RESERVE_ID', $id->id)->get();
+        $Alimento = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '6')->where('RESERVE_ID', $id->id)->get();
         $dataSend = [
-            'convention' => $convention, 'ministry' => $ministry, 'userEncargado' => $userEncargado, 'userAsignado' => $userAsignado, 'costoEvento' => $costoEvento,
-            'proposito' => $id->proposito, 'fechaSolicitud' => $fechaSolicitud, 'fechaReunion' => $fechaReunion, 'horaInicio' => $horaInicio, 'horaFin' => $horaFin,
-            'tipoReunion' => $tipoReunion, 'cantidadPersona' => $id->cantidad_persona, 'montaje' => $montaje, 'manteleria' => $manteleria, 'musical' => $musical,
-            'ReqTecnico' => $ReqTecnico, 'Cristaleria' => $Cristaleria, 'Alimento' => $Alimento, 'observaciones' => $id->observaciones, 'salones' => $salones,
-            'id' => $id
+            'reserva' => $reserva, 'ReqTecnico' => $ReqTecnico, 'Cristaleria' => $Cristaleria, 'Alimento' => $Alimento
         ];
         return view('reservas.frmGestReserva', $dataSend);
     }
@@ -136,11 +119,10 @@ class ReservaController extends Controller
     public function StoreGestReserva(SaveReserveRequest $request, Reserve $id){
         $dataUpdate = [
             'estado' => $request->estado,
-            'salon_id' => $request->salod_id,
-            'cost' => $request->cost,
-            'user_gestion_id' => auth()->user()->id,
-            'fecha_gestion' => now()->format('Ymd'),
-            'hora_gestion' => now()->format('Hi')
+            'user_aprueba_id' => auth()->user()->id,
+            'fecha_aprueba' => now()->format('Ymd'),
+            'hora_aprueba' => now()->format('Hi'),
+            'observacion_aprueba' => $request->observacion_aprueba
         ];
         $id->update($dataUpdate);
         return redirect()->route('reserva.Index')->with('status','Se ha gestionado la reserva');

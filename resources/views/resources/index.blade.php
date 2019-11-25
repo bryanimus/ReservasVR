@@ -14,16 +14,16 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<td>Nombre</td>
 				<td>Tipo</td>
+				<td>Nombre</td>
 				<td>Acciones</td>
 			</tr>
 		</thead>
 		<tbody>
 			@forelse($resources as $resource)
 				<tr>
-					<td>{{ $resource->nombre}}</td>
 					<td>{{ $resource->tipoNombre($resource)}}</td>
+					<td>{{ $resource->nombre}}</td>
 					<td>
 						<a class="btn btn-info btn-xs" href="{{ route('resource.edit', $resource) }}">Editar</a>
 						<form style="display:inline" method="POST" action="{{ route('resource.updateState', $resource) }}">

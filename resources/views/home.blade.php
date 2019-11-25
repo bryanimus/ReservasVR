@@ -6,7 +6,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-lg-6">
-			<h1 class="display-4 text-primary">Sistema de Gestión de Reservas de Eventos</h1>
+			<h1 class="display-4 text-primary">Reservaciones Vida Real</h1>
 			<p>En el presente sistema, usted podrá gestionar los distintos eventos de la Iglesia Vida Real</p>
 		</div>
 		<div class="col-12 col-lg-6">

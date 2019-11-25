@@ -22,6 +22,7 @@ Route::resource('salon', 'SalonController');
 Route::resource('tiporeunion', 'ReunionTypeController');
 Route::resource('ministry', 'MinistryController');
 Route::resource('resource', 'ResourceController');
+Route::resource('department', 'DepartmentController');
 
 // Actualizar Estado Eliminado
 Route::patch('/convention/updateState/{convention}','ConventionController@updateState')->name('convention.updateState');
@@ -31,11 +32,13 @@ Route::patch('/tiporeunion/updateState/{tiporeunion}','ReunionTypeController@upd
 Route::patch('/resource/updateState/{resource}','ResourceController@updateState')->name('resource.updateState');
 Route::patch('/role/updateState/{role}','RoleController@updateState')->name('role.updateState');
 Route::patch('/user/updateState/{user}','UserController@updateState')->name('user.updateState');
+Route::patch('/department/updateState/{department}','DepartmentController@updateState')->name('department.updateState');
 
 // Reservas
 Route::get('/reserva','ReservaController@Init')->name('reserva.Init');
 Route::post('/reserva','ReservaController@Store')->name('reserva.store');
 Route::get('/reserva/getMinistry/{id}','ReservaController@getMinistry')->name('reserva.getMinistry');
+Route::get('/reserva/getResourceDesc/{id}','ReservaController@getResourceDesc')->name('reserva.getResourceDesc');
 Route::get('/gestReserva','ReservaController@IndexGestReserva')->name('reserva.Index');
 Route::get('/gestReserva/{id}','ReservaController@showReserva')->name('reserva.Show');
 Route::patch('/gestReserva/{id}','ReservaController@StoreGestReserva')->name('reserva.storeGestReserva');
@@ -49,5 +52,5 @@ Route::patch('/gestReserva/{id}','ReservaController@StoreGestReserva')->name('re
 // Route::delete('/portafolio/{project}','ProjectController@destroy')->name('projects.destroy');
 
 Auth::routes(['register' => false]);
-Route::view('/registro','auth.register')->name('register');
-Route::post('/registro','Auth\RegisterController@RegisterStore')->name('register.Store');
+//Route::view('/registro','auth.register')->name('register');
+//Route::post('/registro','Auth\RegisterController@RegisterStore')->name('register.Store');

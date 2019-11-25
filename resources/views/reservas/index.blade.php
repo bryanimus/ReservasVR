@@ -1,16 +1,17 @@
 @extends('layout')
 
-@section('title','Gestionar Eventos')
+@section('title','Aprobación de Eventos')
 
 @section('content')
 <div class="container">
 	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h1 class="display-4 mb-0">Gestionar Eventos</h1>
+		<h1 class="display-4 mb-0">Aprobación de Reservas</h1>
 	</div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<td>Num Reserva</td>
+				<td>Nombre</td>
 				<td>Centro de Convención</td>
 				<td>Usuario Encargado</td>
 				<td>Acciones</td>
@@ -20,6 +21,7 @@
 			@forelse($reserves as $reserve)
 				<tr>
 					<td>{{ $reserve->id }}</td>
+					<td>{{ $reserve->nombre }}</td>
 					<td>{{ $reserve->convention->nombre }}</td>
 					<td>{{ $reserve->usuario($reserve->user_encargado_id)}}</td>
 					<td>

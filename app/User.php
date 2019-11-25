@@ -45,7 +45,7 @@ class User extends Authenticatable
         $accParametrizacion = false;
         if ($this->role_id){
             $role = Role::find($this->role_id);
-            if ($role->accCentConv || $role->accMinisterio || $role->accSalones || $role->accTipoReunion ||  $role->accRecurso)
+            if ($role->accCentConv || $role->accMinisterio || $role->accSalones || $role->accDepto || $role->accTipoReunion ||  $role->accRecurso)
                 $accParametrizacion = true;
         }
         return $accParametrizacion;

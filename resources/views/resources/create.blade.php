@@ -1,7 +1,15 @@
 @extends('layout')
 
 @section('title','Recursos')
+@section('scripts')
+	<script type="text/javascript" defer>
+		var fillValue;
 
+		fillValue = function(obj){
+			document.getElementById('tipo').value = obj.value;
+		}
+	</script>
+@endsection
 @section('content')
 <div class="container">
 	<div class="row">

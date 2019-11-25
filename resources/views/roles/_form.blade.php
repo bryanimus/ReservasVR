@@ -16,28 +16,42 @@
 			@error('descripcion') @include('partials.showError') @enderror
 		</div>
 
+		<div class="form-check">
+			<input class="form-check-input" type="checkbox" id="isAdmin" name="isAdmin"
+			@if (old('isAdmin', $role->isAdmin)) checked @endif>
+			<label class="form-check-label" for="isAdmin">Es Administrador</label>
+		</div>
+		</br>
+
 		<h3>Accesos</h3>
 		<hr>
 		<div class="form-row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="accCentConv" name="accCentConv"
 					@if (old('accCentConv', $role->accCentConv)) checked @endif>
 					<label class="form-check-label" for="accCentConv">Centros de Convenciones</label>
 				</div>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="accMinisterio" name="accMinisterio"
 					@if (old('accMinisterio', $role->accMinisterio)) checked @endif>
 					<label class="form-check-label" for="accMinisterio">Ministerios</label>
 				</div>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="accSalones" name="accSalones"
 					@if (old('accSalones', $role->accSalones)) checked @endif>
 					<label class="form-check-label" for="accSalones">Salones</label>
+				</div>
+			</div>
+			<div class="form-group col-md-3">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="accDepto" name="accDepto"
+					@if (old('accDepto', $role->accDepto)) checked @endif>
+					<label class="form-check-label" for="accDepto">Departamentos</label>
 				</div>
 			</div>
 		</div>
@@ -75,21 +89,28 @@
 		<h3>Opciones Reservación</h3>
 		<hr>
 		<div class="form-row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="opcReserva" name="opcReserva"
-					@if (old('opcReserva', $role->opcReserva)) checked @endif>
-					<label class="form-check-label" for="opcReserva">Reservar</label>
+					<input class="form-check-input" type="checkbox" id="opcSolicitar" name="opcSolicitar"
+					@if (old('opcSolicitar', $role->opcSolicitar)) checked @endif>
+					<label class="form-check-label" for="opcSolicitar">Solicitar</label>
 				</div>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="opcAprobar" name="opcAprobar"
 					@if (old('opcAprobar', $role->opcAprobar)) checked @endif>
 					<label class="form-check-label" for="opcAprobar">Aprobar</label>
 				</div>
 			</div>
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="opcReserva" name="opcReserva"
+					@if (old('opcReserva', $role->opcReserva)) checked @endif>
+					<label class="form-check-label" for="opcReserva">Reservar</label>
+				</div>
+			</div>
+			<div class="form-group col-md-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="visEvenPriv" name="visEvenPriv"
 					@if (old('visEvenPriv', $role->visEvenPriv)) checked @endif>

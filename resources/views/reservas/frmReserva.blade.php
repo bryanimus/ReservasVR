@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title','Reservar')
+@section('title','Solicitud de Reserva')
 
 @section('scripts')
 	<script type="text/javascript" defer>
@@ -9,14 +9,16 @@
 		var addRowToTable;
 		var deleteRow;
 		var validateForm;
+		var getResourceDescripcion;
 
 		deleteRow = function(index, tblID){
 			var tbl = document.getElementById(tblID);
 			tbl.deleteRow(index);
 		}
 
-		addRowToTable = function(tblID, objCombo, lblTxt, idRow, txtRow){
+		addRowToTable = function(tblID, objCombo, lblTxt, idRow, txtRow, cntID, numRow){
 			var table = document.getElementById(tblID);
+			var objCant = document.getElementById(cntID);
 			var lastRow = table.rows.length;
 			var i;
 
@@ -43,9 +45,22 @@
 			idReq.style.border = '1px solid #fff';
 			idReq.readOnly = 'true';
 			cell0.style.display='none';
+			cell0.style.width='0%';
 			cell0.appendChild(idReq);
 
 			var cell1 = row.insertCell(1);
+			var txtNum = document.createElement('input');
+			txtNum.id = numRow + '[]';
+			txtNum.setAttribute('type', 'text');
+			txtNum.setAttribute('name', numRow + '[]');
+			txtNum.setAttribute('value', objCant.value);
+			txtNum.style.border = '1px solid #fff';
+			txtNum.readOnly = 'true';
+			cell1.style.display='none';
+			cell1.style.width='0%';
+			cell1.appendChild(txtNum);
+
+			var cell2 = row.insertCell(2);
 			var delBtn = document.createElement('input');
 			delBtn.id = 'Del' + idRow + lastRow;
 			delBtn.setAttribute('type', 'button');
@@ -55,19 +70,36 @@
 			delBtn.onclick = function () {
 				deleteRow(this.parentNode.parentNode.rowIndex, tblID);
 			};
-			cell1.appendChild(delBtn);
+			cell2.style.width='10%';
+			cell2.appendChild(delBtn);
 
-			var cell2 = row.insertCell(2);
-			var txtReq = document.createElement('input');
-			txtReq.id = txtRow + '[]';
-			txtReq.setAttribute('type', 'text');
-			txtReq.setAttribute('name', txtRow + '[]');
-			txtReq.setAttribute('value', objCombo.options[objCombo.selectedIndex].text);
-			txtReq.style.border = '1px solid #fff';
-			txtReq.readOnly = 'true';
-			cell2.appendChild(txtReq);
+			var cell3 = row.insertCell(3);
+			var txtNumLbl = document.createElement('label');
+			txtNumLbl.innerText = objCant.value;
+			cell3.style.width='10%';
+			cell3.appendChild(txtNumLbl);
+
+			var cell4 = row.insertCell(4);
+			var txtReq = document.createElement('label');
+			if (txtRow == 'txtalimento')
+				txtReq.innerText = objCombo.options[objCombo.selectedIndex].text + ' (' + document.getElementById('descResource').value + ')';
+			else
+				txtReq.innerText = objCombo.options[objCombo.selectedIndex].text;
+			cell4.style.width='80%';
+			cell4.appendChild(txtReq);
 
 			objCombo.selectedIndex = 0;
+			objCant.value = 1;
+		}
+
+		getResourceDescripcion = function(id){
+			if (id != ''){
+				$.get('/reserva/getResourceDesc/' + id).done(
+					function(response){
+						document.getElementById('descResource').value = response;
+					}
+				)
+			}
 		}
 
 		addMinistries = function(){
@@ -98,7 +130,7 @@
 					document.getElementById('cantidad_persona').min=71;	document.getElementById('cantidad_persona').max=230; document.getElementById('cantidad_persona').value=71;
 					break;
 				case "3":
-					document.getElementById('cantidad_persona').min=300; document.getElementById('cantidad_persona').max=800; document.getElementById('cantidad_persona').value=300;
+					document.getElementById('cantidad_persona').min=231; document.getElementById('cantidad_persona').max=800; document.getElementById('cantidad_persona').value=231;
 					break;
 			}
 		}
@@ -107,12 +139,13 @@
 			var blnContinue = true;
 			document.getElementById('convention_id').classList.remove('is-invalid'); document.getElementById('tamano_reunion').classList.remove('is-invalid');
 			document.getElementById('ministry_id').classList.remove('is-invalid'); document.getElementById('user_encargado_id').classList.remove('is-invalid');
-			document.getElementById('costo_evento').classList.remove('is-invalid');
+			document.getElementById('costo_evento').classList.remove('is-invalid'); document.getElementById('nombre').classList.remove('is-invalid');
 			document.getElementById('proposito').classList.remove('is-invalid'); document.getElementById('fecha_reunion').classList.remove('is-invalid');
 			document.getElementById('hora_inicio').classList.remove('is-invalid'); document.getElementById('hora_fin').classList.remove('is-invalid');
 			document.getElementById('reuniontype_id').classList.remove('is-invalid'); document.getElementById('cantidad_persona').classList.remove('is-invalid');
 			document.getElementById('montaje_id').classList.remove('is-invalid'); document.getElementById('althorario').style.display = 'none';
 
+			if (document.getElementById('nombre').value.trim() == ''){ document.getElementById('nombre').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('convention_id').selectedIndex == 0){ document.getElementById('convention_id').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('tamano_reunion').selectedIndex == 0){ document.getElementById('tamano_reunion').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('ministry_id').selectedIndex == 0){ document.getElementById('ministry_id').classList.add('is-invalid'); blnContinue = false;}
@@ -126,10 +159,7 @@
 				var horaInicio = parseInt(document.getElementById('hora_inicio').value.trim().replace(":",""));
 				var horaFin = parseInt(document.getElementById('hora_fin').value.trim().replace(":",""));
 
-				if (horaInicio >= horaFin) {
-					document.getElementById('althorario').style.display = 'block';  document.getElementById('hora_inicio').classList.add('is-invalid');
-					document.getElementById('hora_fin').classList.add('is-invalid'); blnContinue=false;
-				}
+				if (horaInicio >= horaFin) {document.getElementById('althorario').style.display = 'block';  blnContinue=false; }
 			}
 			if (document.getElementById('reuniontype_id').selectedIndex == 0){ document.getElementById('reuniontype_id').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('cantidad_persona').value.trim() == ''){ document.getElementById('cantidad_persona').classList.add('is-invalid'); blnContinue = false;}
@@ -150,7 +180,12 @@
 				@csrf
 				<h2>Información General</h2>
 				<hr>
-
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="nombre">Nombre de la reunión <strong>(*)</strong></label>
+						<input class="form-control"	id="nombre" type="text" name="nombre" onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">
+					</div>
+				</div>
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="convention">Centro de Convención <strong>(*)</strong></label>
@@ -168,7 +203,7 @@
 							<option value="">Seleccione Cantidad de Personas</option>
 								<option value="1">de 6 a 70 personas máximo</option>
 								<option value="2">de 71 a 230 personas máximo</option>
-								<option value="3">de 300 a 800 personas máximo</option>
+								<option value="3">de 231 a 800 personas máximo</option>
 						</select>
 					</div>
 				</div>
@@ -239,7 +274,7 @@
 					</div>
 					<div class="form-group col-md-6">
 						<label for="cantidad_persona">Cantidad de Personas <strong>(*)</strong></label>
-						<input class="form-control" type="number" name="cantidad_persona" id="cantidad_persona" min="6" max="800" value="6">
+						<input class="form-control" type="number" name="cantidad_persona" id="cantidad_persona" min="6" max="800" value="6" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 					</div>
 				</div>
 
@@ -286,15 +321,19 @@
 							@endforeach
 						</select>
 					</div>
+					<div class="form-group col-md-2">
+						<label for="cntReq_Tecnico">Cantidad</label>
+						<input class="form-control" type="number" name="cntReq_Tecnico" id="cntReq_Tecnico" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
+					</div>
 					<div class="form-group col-md-1">
 						<label for="addReq_Tecnico"></label>
 						<button id="addReq_Tecnico" type="button" class="btn btn-info btn-xs"
-							onclick="addRowToTable('tblReqTecnico', frmReserva.req_tecnico, 'Requerimiento Técnico', 'idReq', 'txtReq'); return false;">Agregar</button>
+							onclick="addRowToTable('tblReqTecnico', frmReserva.req_tecnico, 'Requerimiento Técnico', 'idReq', 'txtReq', 'cntReq_Tecnico', 'numReq'); return false;">Agregar</button>
 					</div>
 				</div>
 				<div class="form-group overflow-auto" style="height: 200px;">
-					<table class="table table-sm" id ="tblReqTecnico" name ="tblReqTecnico">
-						<thead class="thead-light"><tr><th scope="col" style="display:none;"></th><th colspan="2"><center>Requerimiento Técnico</center></th></tr></thead>
+					<table class="table table-sm table-bordered" id ="tblReqTecnico" name ="tblReqTecnico">
+						<thead class="thead-light"><tr><th style="display:none;"></th><th style="display:none;"></th><th colspan="3"><center>Requerimiento Técnico</center></th></tr></thead>
 					</table>
 				</div>
 
@@ -308,37 +347,46 @@
 							@endforeach
 						</select>
 					</div>
+					<div class="form-group col-md-2">
+						<label for="cntcristaleria">Cantidad</label>
+						<input class="form-control" type="number" name="cntcristaleria" id="cntcristaleria" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
+					</div>
 					<div class="form-group col-md-1">
 						<label for="addcristaleria"></label>
 						<button id="addcristaleria" type="button" class="btn btn-info btn-xs"
-							onclick="addRowToTable('tblcristaleria', frmReserva.cristaleria, 'Cristalería y Loza', 'idCristaleria', 'txtCristaleria'); return false;">Agregar</button>
+							onclick="addRowToTable('tblcristaleria', frmReserva.cristaleria, 'Cristalería y Loza', 'idCristaleria', 'txtCristaleria', 'cntcristaleria', 'numcristaleria'); return false;">Agregar</button>
 					</div>
 				</div>
 				<div class="form-group overflow-auto" style="height: 200px;">
-					<table class="table table-sm" id ="tblcristaleria" name ="tblcristaleria">
-						<thead class="thead-light"><tr><th scope="col" style="display:none;"></th><th colspan="2"><center>Cristalería y Loza</center></th></tr></thead>
+					<table class="table table-sm table-bordered" id ="tblcristaleria" name ="tblcristaleria">
+						<thead class="thead-light"><tr><th style="display:none;"></th><th style="display:none;"></th><th colspan="3"><center>Cristalería y Loza</center></th></tr></thead>
 					</table>
 				</div>
 
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="alimento">Alimentos y Bebidas</label>
-						<select class ="form-control" id="alimento" name="alimento">
+						<select class ="form-control" id="alimento" name="alimento" onchange="getResourceDescripcion(this.value);">
 							<option value="">Seleccione Alimentos y Bebidas</option>
 							@foreach ($alimentos as $id => $nombre)
 								<option value="{{ $id }}">{{ $nombre }}</option>
 							@endforeach
 						</select>
+						<input type="hidden" id="descResource">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="cntalimento">Cantidad</label>
+						<input class="form-control" type="number" name="cntalimento" id="cntalimento" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 					</div>
 					<div class="form-group col-md-1">
 						<label for="addalimento"></label>
 						<button id="addalimento" type="button" class="btn btn-info btn-xs"
-							onclick="addRowToTable('tblalimento', frmReserva.alimento, 'Alimentos y Bebidas', 'idalimento', 'txtalimento'); return false;">Agregar</button>
+							onclick="addRowToTable('tblalimento', frmReserva.alimento, 'Alimentos y Bebidas', 'idalimento', 'txtalimento', 'cntalimento', 'numalimento'); return false;">Agregar</button>
 					</div>
 				</div>
 				<div class="form-group overflow-auto" style="height: 200px;">
-					<table class="table table-sm" id ="tblalimento" name ="tblalimento">
-						<thead class="thead-light"><tr><th scope="col" style="display:none;"></th><th colspan="2"><center>Alimentos y Bebidas</center></th></tr></thead>
+					<table class="table table-sm table-bordered" id ="tblalimento" name ="tblalimento">
+						<thead class="thead-light"><tr><th style="width: 0%;display:none;"></th><th style="width: 0%;display:none;"></th><th style="width: 100%;" colspan="3"><center>Alimentos y Bebidas</center></th></tr></thead>
 					</table>
 				</div>
 
@@ -347,7 +395,7 @@
 					<textarea class ="form-control" id="observaciones" name="observaciones" onfocusout="remplazarEspeciales(this);" onkeypress="ValidaCaracter(event);"></textarea>
 				</div>
 
-				<button id="btnGuardar" type="button" class="btn btn-primary btn-lg btn-block" onclick="validateForm();">Agregar Reserva</button>
+				<button id="btnGuardar" type="button" class="btn btn-primary btn-lg btn-block" onclick="validateForm();">Enviar Solicitud</button>
 			</form>
 		</div>
 	</div>
