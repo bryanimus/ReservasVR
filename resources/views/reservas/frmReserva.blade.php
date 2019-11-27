@@ -10,6 +10,7 @@
 		var deleteRow;
 		var validateForm;
 		var getResourceDescripcion;
+		var typeEventChg;
 
 		deleteRow = function(index, tblID){
 			var tbl = document.getElementById(tblID);
@@ -148,9 +149,11 @@
 			if (document.getElementById('nombre').value.trim() == ''){ document.getElementById('nombre').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('convention_id').selectedIndex == 0){ document.getElementById('convention_id').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('tamano_reunion').selectedIndex == 0){ document.getElementById('tamano_reunion').classList.add('is-invalid'); blnContinue = false;}
-			if (document.getElementById('ministry_id').selectedIndex == 0){ document.getElementById('ministry_id').classList.add('is-invalid'); blnContinue = false;}
+			if (document.getElementById('ministry_id').selectedIndex == 0 && document.getElementById('ministryDiv').style.display != 'none')
+				{ document.getElementById('ministry_id').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('user_encargado_id').selectedIndex == 0){ document.getElementById('user_encargado_id').classList.add('is-invalid'); blnContinue = false;}
-			if (document.getElementById('costo_evento').selectedIndex == 0){ document.getElementById('costo_evento').classList.add('is-invalid'); blnContinue = false;}
+			if (document.getElementById('costo_evento').selectedIndex == 0  && document.getElementById('costo_eventoDiv').style.display != 'none')
+				{ document.getElementById('costo_evento').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('proposito').value.trim() == ''){ document.getElementById('proposito').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('fecha_reunion').value.trim() == ''){ document.getElementById('fecha_reunion').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('hora_inicio').value.trim() == ''){ document.getElementById('hora_inicio').classList.add('is-invalid'); blnContinue = false;}
@@ -170,6 +173,17 @@
 			else
 				alert('Favor Completar Información Requerida');
 		}
+
+		typeEventChg = function(type){
+			var styleDiv = (type == 1) ? 'block' : 'none';
+
+			document.getElementById('ministryDiv').style.display = styleDiv;
+			document.getElementById('costo_eventoDiv').style.display = styleDiv;
+			document.getElementById('musical_idDiv').style.display = styleDiv;
+			document.getElementById('ministry_id').selectedIndex = 0;
+			document.getElementById('costo_evento').selectedIndex = 0;
+			document.getElementById('musical_id').selectedIndex = 0;
+		}
 	</script>
 @endsection
 @section('content')
@@ -184,6 +198,19 @@
 					<div class="form-group col-md-6">
 						<label for="nombre">Nombre de la reunión <strong>(*)</strong></label>
 						<input class="form-control"	id="nombre" type="text" name="nombre" onfocusout="remplazarEspeciales(this);removeClassTXT(this);" onkeypress="ValidaCaracter(event);">
+					</div>
+					<div class="form-group col-md-2"></div>
+					<div class="form-group col-md-3">
+						<label for="typeEvent">Tipo de Evento <strong>(*)</strong></label>
+						<br>
+						<div class="form-check form-check-inline">
+						  	<input class="form-check-input" type="radio" name="typeEvent" id="typeEvent1" value="1" onchange="typeEventChg(1);" checked>
+							<label class="form-check-label" for="typeEvent1">Interno</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="typeEvent" id="typeEvent2" value="2" onchange="typeEventChg(2);" >
+							<label class="form-check-label" for="typeEvent2">Externo</label>
+						</div>
 					</div>
 				</div>
 				<div class="form-row">
@@ -210,10 +237,12 @@
 
 				<div class="form-row">
 					<div class="form-group col-md-4">
-						<label for="ministry_id">Ministerio <strong>(*)</strong></label>
-						<select class ="form-control" name="ministry_id" id= "ministry_id" onchange="removeClassCmb(this);">
-							<option value="">Seleccione Ministerio</option>
-						</select>
+						<div id="ministryDiv">
+							<label for="ministry_id">Ministerio <strong>(*)</strong></label>
+							<select class ="form-control" name="ministry_id" id= "ministry_id" onchange="removeClassCmb(this);">
+								<option value="">Seleccione Ministerio</option>
+							</select>
+						</div>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="user_encargado_id">Encargado del Evento <strong>(*)</strong></label>
@@ -225,12 +254,14 @@
 						</select>
 					</div>
 					<div class="form-group col-md-4">
-						<label for="costo_evento">Costo del Evento <strong>(*)</strong></label>
-						<select class ="form-control" name="costo_evento" id= "costo_evento" onchange="removeClassCmb(this);">
-							<option value="">Seleccione Costo del Evento</option>
-							<option value="1">Presupuesto</option>
-							<option value="2">Pago Directo</option>
-						</select>
+						<div id="costo_eventoDiv">
+							<label for="costo_evento">Costo del Evento <strong>(*)</strong></label>
+							<select class ="form-control" name="costo_evento" id= "costo_evento" onchange="removeClassCmb(this);">
+								<option value="">Seleccione Costo del Evento</option>
+								<option value="1">Presupuesto</option>
+								<option value="2">Pago Directo</option>
+							</select>
+						</div>
 					</div>
 				</div>
 
@@ -301,13 +332,15 @@
 						</select>
 					</div>
 					<div class="form-group col-md-4">
-						<label for="musical_id">Musical</label>
-						<select class ="form-control" id="musical_id" name="musical_id">
-							<option value="">Seleccione Música</option>
-							@foreach ($musicas as $id => $nombre)
-								<option value="{{ $id }}">{{ $nombre }}</option>
-							@endforeach
-						</select>
+						<div id="musical_idDiv">
+							<label for="musical_id">Musical</label>
+							<select class ="form-control" id="musical_id" name="musical_id">
+								<option value="">Seleccione Música</option>
+								@foreach ($musicas as $id => $nombre)
+									<option value="{{ $id }}">{{ $nombre }}</option>
+								@endforeach
+							</select>
+						</div>
 					</div>
 				</div>
 

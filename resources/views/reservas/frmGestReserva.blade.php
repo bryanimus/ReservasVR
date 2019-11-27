@@ -29,54 +29,115 @@
 
 				<h2><center>Aprobación de Reserva</center></h2>
 				<hr>
-				<table class="table table-sm table-bordered" id ="tblInfoReserva" name ="tblInfoReserva">
-					<thead class="thead-light"><th style="width: 30%"><center>Elemento</center></th><th style="width: 70%"><center>Detalle</center></th></tr></thead>
-					<tbody>
-						<tr><td>Nombre Reserva</td><td>{{ $reserva->NOMBRE_RESERVA }}</td></tr>
-						<tr><td>Fecha de Solicitud</td><td>{{ $reserva->FECHA_SOLICITUD }}</td></tr>
-						<tr><td>Fecha/Hora de Reunión</td><td>{{ $reserva->FECHA_REUNION . ' ' . $reserva->HORA_INICIO . ' - ' . $reserva->HORA_FIN }}</td></tr>
-						<tr><td>Encargado del Evento</td><td>{{ $reserva->USUARIO_ENCARGADO }}</td></tr>
-						<tr><td>Usuario Solicitante</td><td>{{ $reserva->USUARIO_SOLICITA }}</td></tr>
-						<tr><td>Centro de Convención</td><td>{{ $reserva->CONVENCION }}</td></tr>
-						<tr><td>Ministerio</td><td>{{ $reserva->MINISTERIO }}</td></tr>
-						<tr><td>Costo del Evento</td><td>{{ $reserva->COSTO_EVENTO }}</td></tr>
-						<tr><td>Tipo de Reunión</td><td>{{ $reserva->TIPO_REUNION }}</td></tr>
-						<tr><td>Propósito de la Reunión</td><td>{{ $reserva->PROPOSITO }}</td></tr>
-						<tr><td>Cantidad de Personas</td><td>{{ $reserva->CANTIDAD_PERSONA }}</td></tr>
-						<tr><td>Tipo de Montaje</td><td>{{ $reserva->MONTAJE }}</td></tr>
-						<tr><td>Tipo de Manteleria</td><td>{{ $reserva->MANTELERIA }} </td></tr>
-						<tr><td>Musical</td><td>{{ $reserva->MUSICAL }}</td></tr>
-						<tr><td>Requerimiento Técnico</td><td>
-							@if (count($ReqTecnico))
-							<ul>
+				<div class="form-row">
+					<div class="form-group col-md-3">
+						<label><strong>Fecha de Solicitud</strong></label> <br>
+						<label>{{ $reserva->FECHA_SOLICITUD }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Fecha/Hora de Reunión</strong></label> <br>
+						<label>{{ $reserva->FECHA_REUNION . ' ' . $reserva->HORA_INICIO . ' - ' . $reserva->HORA_FIN}}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Encargado del Evento</strong></label> <br>
+						<label>{{ $reserva->USUARIO_ENCARGADO}}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Usuario Solicitante</strong></label> <br>
+						<label>{{ $reserva->USUARIO_SOLICITA}}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-3">
+						<label><strong>Nombre de la reunión</strong></label> <br>
+						<label>{{ $reserva->NOMBRE_RESERVA }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Tipo de Evento</strong></label> <br>
+						<label>{{ $reserva->TIPO_EVENTO_DESC }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Centro de Convención</strong></label><br>
+						<label>{{ $reserva->CONVENCION }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Ministerio</strong></label><br>
+						<label>{{ $reserva->MINISTERIO }}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-3">
+						<label><strong>Costo del Evento</strong></label> <br>
+						<label>{{ $reserva->COSTO_EVENTO }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Tipo de Reunión</strong></label> <br>
+						<label>{{ $reserva->TIPO_REUNION }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Cantidad de Personas</strong></label> <br>
+						<label>{{ $reserva->CANTIDAD_PERSONA }}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label><strong>Propósito de la Reunión</strong></label> <br>
+						<label>{{ $reserva->PROPOSITO }}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-3">
+						<label><strong>Tipo de Montaje</strong></label> <br>
+						<label>{{ $reserva->MONTAJE }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Tipo de Manteleria</strong></label> <br>
+						<label>{{ $reserva->MANTELERIA }}</label>
+					</div>
+					<div class="form-group col-md-3">
+						<label><strong>Musical</strong></label> <br>
+						<label>{{ $reserva->MUSICAL }}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<label><strong>Observaciones Solicitud</strong></label> <br>
+						<label>{{ $reserva->OBSERVACIONES }}</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-4">
+						<table class="table table-sm table-bordered">
+							<thead class="thead-light"><tr><th><center>Requerimiento Técnico</center></th></tr></thead>
+							<tbody><tr>
 								@foreach($ReqTecnico as $value)
-									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</li>
+									<tr><td>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</td></tr>
 								@endforeach
-							</ul>
-							@endif
-						</td></tr>
-						<tr><td>Cristalería y Loza</td><td>
-							@if (count($Cristaleria))
-							<ul>
+							</tr></tbody>
+						</table>
+					</div>
+					<div class="form-group col-md-4">
+						<table class="table table-sm table-bordered">
+							<thead class="thead-light"><tr><th><center>Cristalería y Loza</center></th></tr></thead>
+							<tbody><tr>
 								@foreach($Cristaleria as $value)
-									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</li>
+									<tr><td>{{ $value->CANTIDAD . ' - ' . $value->RECURSO }}</td></tr>
 								@endforeach
-							</ul>
-							@endif
-						</td></tr>
-						<tr><td>Alimentos y Bebidas</td><td>
-							@if (count($Alimento))
-							<ul>
+							</tr></tbody>
+						</table>
+					</div>
+					<div class="form-group col-md-4">
+						<table class="table table-sm table-bordered">
+							<thead class="thead-light"><tr><th><center>Alimentos y Bebidas</center></th></tr></thead>
+							<tbody>
 								@foreach($Alimento as $value)
-									<li>{{ $value->CANTIDAD . ' - ' . $value->RECURSO . ' (' . $value->RECURSO_DESC . ')'}}</li>
+									<tr><td>{{ $value->CANTIDAD . ' - ' . $value->RECURSO . ' (' . $value->RECURSO_DESC . ')' }}</td></tr>
 								@endforeach
-							</ul>
-							@endif
-						</td></tr>
-						<tr><td>Observaciones Solicitud</td><td> {{ $reserva->OBSERVACIONES }} </td></tr>
-					</tbody>
-				</table>
-
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<hr>
 				<div class="form-row">
 					<div class="form-group col-md-4">
 						<label for="estado">Estado <strong>(*)</strong></label>

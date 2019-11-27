@@ -24,15 +24,15 @@ class ReservaController extends Controller
     }
 
     public function Init(){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
-        $users = User::whereNull('estado')->pluck('name', 'id');
-        $reuniontypes = ReunionType::whereNull('estado')->pluck('nombre', 'id');
-        $montajes = Resource::whereNull('estado')->where('tipo','1')->pluck('nombre', 'id');
-        $mantelerias = Resource::whereNull('estado')->where('tipo','2')->pluck('nombre', 'id');
-        $tecnicos = Resource::whereNull('estado')->where('tipo','3')->pluck('nombre', 'id');
-        $musicas = Resource::whereNull('estado')->where('tipo','4')->pluck('nombre', 'id');
-        $cristalerias = Resource::whereNull('estado')->where('tipo','5')->pluck('nombre', 'id');
-        $alimentos = Resource::whereNull('estado')->where('tipo','6')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $users = User::whereNull('estado')->orderBy('name')->pluck('name', 'id');
+        $reuniontypes = ReunionType::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $montajes = Resource::whereNull('estado')->where('tipo','1')->orderBy('nombre')->pluck('nombre', 'id');
+        $mantelerias = Resource::whereNull('estado')->where('tipo','2')->orderBy('nombre')->pluck('nombre', 'id');
+        $tecnicos = Resource::whereNull('estado')->where('tipo','3')->orderBy('nombre')->pluck('nombre', 'id');
+        $musicas = Resource::whereNull('estado')->where('tipo','4')->orderBy('nombre')->pluck('nombre', 'id');
+        $cristalerias = Resource::whereNull('estado')->where('tipo','5')->orderBy('nombre')->pluck('nombre', 'id');
+        $alimentos = Resource::whereNull('estado')->where('tipo','6')->orderBy('nombre')->pluck('nombre', 'id');
     	return view('reservas.frmReserva', [
             'conventions' => $conventions, 'users' => $users, 'reuniontypes' => $reuniontypes,
             'montajes' => $montajes, 'mantelerias' => $mantelerias, 'tecnicos' => $tecnicos,
@@ -53,6 +53,7 @@ class ReservaController extends Controller
             'user_id' => auth()->user()->id,
             'user_encargado_id' => $request->user_encargado_id,
             'ministry_id' => $request->ministry_id,
+            'tipo_evento' => $request->typeEvent,
             'costo_evento' => $request->costo_evento,
             'reuniontype_id' => $request->reuniontype_id,
             'proposito' => $request->proposito,
@@ -90,7 +91,7 @@ class ReservaController extends Controller
     }
 
     public function getMinistry($id){
-        $ministries = Ministry::select('id','nombre')->whereNull('estado')->where('convention_id',$id)->get();
+        $ministries = Ministry::select('id','nombre')->whereNull('estado')->where('convention_id',$id)->orderBy('nombre')->get();
         return $ministries;
     }
 

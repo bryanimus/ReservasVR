@@ -23,8 +23,8 @@ class UserController extends Controller
     }
 
     public function edit(User $user){
-        $roles = Role::whereNull('estado')->pluck('nombre', 'id');
-        $ministries = Ministry::whereNull('estado')->pluck('nombre', 'id');
+        $roles = Role::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $ministries = Ministry::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
@@ -33,8 +33,8 @@ class UserController extends Controller
     }
 
     public function create(){
-        $roles = Role::whereNull('estado')->pluck('nombre', 'id');
-        $ministries = Ministry::whereNull('estado')->pluck('nombre', 'id');
+        $roles = Role::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $ministries = Ministry::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('users.create', [
             'user' => new User,
             'roles' => $roles,

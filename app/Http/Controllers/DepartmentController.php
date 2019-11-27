@@ -21,7 +21,7 @@ class DepartmentController extends Controller
     }
 
     public function edit(Department $department){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('departments.edit', [
             'department' => $department,
             'conventions' => $conventions
@@ -29,7 +29,7 @@ class DepartmentController extends Controller
     }
 
     public function create(){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('departments.create', [
             'department' => new Department,
             'conventions' => $conventions

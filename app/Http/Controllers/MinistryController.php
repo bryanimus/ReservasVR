@@ -27,7 +27,7 @@ class MinistryController extends Controller
     }
 
     public function create(){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('ministries.create', [
             'ministry' => new Ministry,
             'conventions' => $conventions
@@ -41,7 +41,7 @@ class MinistryController extends Controller
     }
 
     public function edit(Ministry $ministry){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('ministries.edit', [
             'ministry' => $ministry,
             'conventions' => $conventions

@@ -21,7 +21,7 @@ class SalonController extends Controller
     }
 
     public function edit(Salon $salon){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('salones.edit', [
             'salon' => $salon,
             'conventions' => $conventions
@@ -29,7 +29,7 @@ class SalonController extends Controller
     }
 
     public function create(){
-        $conventions = Convention::whereNull('estado')->pluck('nombre', 'id');
+        $conventions = Convention::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('salones.create', [
             'salon' => new Salon,
             'conventions' => $conventions
