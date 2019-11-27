@@ -183,6 +183,8 @@
 			document.getElementById('ministry_id').selectedIndex = 0;
 			document.getElementById('costo_evento').selectedIndex = 0;
 			document.getElementById('musical_id').selectedIndex = 0;
+			document.getElementById('ministry_id').classList.remove('is-invalid');
+			document.getElementById('costo_evento').classList.remove('is-invalid');
 		}
 	</script>
 @endsection

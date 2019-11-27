@@ -21,6 +21,7 @@
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-4">
+				<label for="tipo">Filtrar por</label>
 				<select id="tipo" name="tipo" class="form-control">
 					<option value="0" @if ("0" == $TipoFilter) selected="selected" @endif >Seleccione filtro</option>
 					<option value="1" @if ("1" == $TipoFilter) selected="selected" @endif>Montaje</option>
@@ -32,10 +33,11 @@
 				</select>
 			</div>
 			<div class="form-group col-md-2">
+				<label for="cntPage">Bloques De</label>
 				<input class="form-control" type="number" name="cntPage" id="cntPage" min="1" max="50" value="{{ $Pag }}" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 			</div>
 			<div class="form-group col-md-2">
-				<label for="addReq_Tecnico"> </label>
+				<br>
 				<a class="btn btn-info" href="#" onclick="event.preventDefault(); document.getElementById('filter-form').submit();">Filtrar</a>
 			</div>
 		</div>

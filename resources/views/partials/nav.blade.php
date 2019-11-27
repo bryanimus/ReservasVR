@@ -37,7 +37,7 @@
 								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 									@if (auth()->user()->role->opcSolicitar) <a class="dropdown-item" href="{{ route('reserva.Init') }}">Solicitud de Reserva</a> @endif
 									@if (auth()->user()->role->opcAprobar) <a class="dropdown-item" href="{{ route('reserva.Index') }}">Aprobación de Reservas</a> @endif
-									@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="#">Reservar Eventos</a> @endif
+									@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="{{ route('reserva.resIndex') }}">Reservación de Reservas</a> @endif
 								</div>
 							</li>
 						@endif

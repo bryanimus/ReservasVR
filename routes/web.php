@@ -35,14 +35,21 @@ Route::patch('/role/updateState/{role}','RoleController@updateState')->name('rol
 Route::patch('/user/updateState/{user}','UserController@updateState')->name('user.updateState');
 Route::patch('/department/updateState/{department}','DepartmentController@updateState')->name('department.updateState');
 
-// Reservas
+// Solicitud Reservas
 Route::get('/reserva','ReservaController@Init')->name('reserva.Init');
 Route::post('/reserva','ReservaController@Store')->name('reserva.store');
 Route::get('/reserva/getMinistry/{id}','ReservaController@getMinistry')->name('reserva.getMinistry');
 Route::get('/reserva/getResourceDesc/{id}','ReservaController@getResourceDesc')->name('reserva.getResourceDesc');
+
+// Aprobación Reservas
 Route::get('/gestReserva','ReservaController@IndexGestReserva')->name('reserva.Index');
 Route::get('/gestReserva/{id}','ReservaController@showReserva')->name('reserva.Show');
 Route::patch('/gestReserva/{id}','ReservaController@StoreGestReserva')->name('reserva.storeGestReserva');
+
+// Reservar Reservas
+Route::get('/resReserva','ReservaController@IndexResReserva')->name('reserva.resIndex');
+Route::get('/resReserva/{id}','ReservaController@showResReserva')->name('reserva.resShow');
+Route::patch('/resReserva/{id}','ReservaController@StoreResReserva')->name('reserva.storeResReserva');
 
 // Route::get('/portafolio','ProjectController@index')->name('projects.index');
 // Route::get('/portafolio/crear','ProjectController@create')->name('projects.create');

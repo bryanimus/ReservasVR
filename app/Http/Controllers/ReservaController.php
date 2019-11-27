@@ -9,6 +9,7 @@ use App\ReunionType;
 use App\Ministry;
 use App\Resource;
 use App\ReserveResource;
+use App\ReserveSalon;
 use Webpatser\Uuid\Uuid;
 use Illuminate\Http\Request;
 use Carbon;
@@ -21,6 +22,7 @@ class ReservaController extends Controller
         $this->middleware('auth');
         $this->middleware('checkRole:opcSolicitar')->only('Init', 'Store', 'getMinistry', 'getResourceDesc');
         $this->middleware('checkRole:opcAprobar')->only('IndexGestReserva', 'showReserva', 'StoreGestReserva');
+        $this->middleware('checkRole:opcReserva')->only('IndexResReserva', 'showResReserva', 'StoreResReserva');
     }
 
     public function Init(){
@@ -127,5 +129,53 @@ class ReservaController extends Controller
         ];
         $id->update($dataUpdate);
         return redirect()->route('reserva.Index')->with('status','Se ha gestionado la reserva');
+    }
+
+    public function IndexResReserva(){
+        return view('reservas.indexRes', [
+            'reserves' => Reserve::where('estado' , '3')->oldest('id')->paginate(10)
+        ]);
+    }
+
+    public function showResReserva(Reserve $id){
+        $reserva = DB::table('vRESERVA')->where('ID_RESERVA', $id->id)->first(); // Consultar Información General de la Reserva
+        $ReqTecnico = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '3')->where('RESERVE_ID', $id->id)->get();
+        $Cristaleria = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '5')->where('RESERVE_ID', $id->id)->get();
+        $Alimento = DB::table('vRESERVARESOURCE')->select('RECURSO', 'CANTIDAD', 'RECURSO_DESC')->where('TIPO', '6')->where('RESERVE_ID', $id->id)->get();
+        $salones = Salon::whereNull('estado')->where('convention_id', $id->convention_id)->orderBy('nombre')->pluck('nombre', 'id');
+        $dataSend = [
+            'reserva' => $reserva, 'ReqTecnico' => $ReqTecnico, 'Cristaleria' => $Cristaleria, 'Alimento' => $Alimento, 'salones' => $salones
+        ];
+        return view('reservas.frmResReserva', $dataSend);
+    }
+
+    public function StoreResReserva(SaveReserveRequest $request, Reserve $id){
+        $dataUpdate = [
+            'estado' => 4,
+            'priv_evento' => $request->privEvent,
+            'user_reserva_id' => auth()->user()->id,
+            'fecha_reserva' => now()->format('Ymd'),
+            'hora_reserva' => now()->format('Hi'),
+            'observacion_reserva' => $request->observacion_reserva
+        ];
+        $id->update($dataUpdate);
+
+        for ($i = 0; $i < count($request->idSalon); $i++)
+            ReserveSalon::create([ 'reserve_id' => $id->id, 'salon_id' => $request->idSalon[$i] ]);
+
+        if (isset($request->chgDate)){
+            $fecha_reunion = $request->fecha_reunion;
+            $fecha_reunion = substr($fecha_reunion,6,4) . substr($fecha_reunion,3,2) . substr($fecha_reunion,0,2);
+            $hora_inicio = str_replace(":", "", $request->hora_inicio);
+            $hora_fin = str_replace(":", "", $request->hora_fin);
+
+            $dataUpdate = [
+                'fecha_reunion' => $fecha_reunion,
+                'hora_inicio' => $hora_inicio,
+                'hora_fin' => $hora_fin
+            ];
+            $id->update($dataUpdate);
+        }
+        return redirect()->route('reserva.resIndex')->with('status','Se ha reservado la reserva');
     }
 }
