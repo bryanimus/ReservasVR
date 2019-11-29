@@ -1,9 +1,15 @@
 @extends('layout')
 
 @section('title','Reservar Reserva')
-
+@section('styles')
+	<link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}">
+    <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.standalone.css')}}">
+@endsection
 @section('scripts')
-	<script type="text/javascript">
+	<script src="{{asset('Jquery/jquery-3.4.1.min.js')}}" defer></script>
+	<script src="{{asset('DatePicker/js/bootstrap-datepicker.js')}}" defer></script>
+	<script src="{{asset('DatePicker/locales/bootstrap-datepicker.es.min.js')}}" defer></script>
+	<script type="text/javascript" defer>
 		var validateForm;
 		var addRowToTable;
 		var deleteRow;
@@ -106,6 +112,17 @@
 				frmGestReserva.submit();
 			else
 				alert('Favor Completar Información Requerida');
+		}
+
+		window.onload = function (){
+			$('.datepicker').datepicker({
+				format: "dd/mm/yyyy",
+			    language: "es",
+			    autoclose: true,
+			    startDate: "+1d"
+			}).on('changeDate', function(ev){
+				document.getElementById('fecha_reunion').classList.remove('is-invalid');
+			});;
 		}
 	</script>
 @endsection

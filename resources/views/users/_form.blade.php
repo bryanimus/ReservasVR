@@ -32,20 +32,34 @@
 			@error('role_id') @include('partials.showError') @enderror
 		</div>
 		<div class="form-group">
-			<label for="rol">Ministerio</label>
+			<div class="form-check form-check-inline">
+			  	<input class="form-check-input" type="radio" name="typeUser" id="typeUser1" onchange="document.getElementById('valType').value='';checkRadio('1');">
+				<label class="form-check-label" for="typeUser1">Ministerio</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="typeUser" id="typeUser2" onchange="document.getElementById('valType').value='';checkRadio('2');">
+				<label class="form-check-label" for="typeUser2">Departamento</label>
+			</div>
+		</div>
+		<div class="form-group">
 			<select class="form-control
 						@error('ministry_id') is-invalid @else border-0 @enderror"
-				id="type" name="ministry_id" onchange="removeClassCmb(this);">
+				id="ministry_id" name="ministry_id" onchange="removeClassCmb(this);saveID(this);">
 				<option value="">Seleccione Ministerio</option>
 				@foreach ($ministries as $id => $nombre)
-					<option value="{{ $id }}"
-						@if ($id == old('ministry_id', $user->ministry_id))
-							selected="selected"
-						@endif
-					>{{ $nombre }}</option>
+					<option value="{{ $id }}">{{ $nombre }}</option>
 				@endforeach
 			</select>
-			@error('role_id') @include('partials.showError') @enderror
+			@error('ministry_id') @include('partials.showError') @enderror
+			<select class="form-control
+						@error('department_id') is-invalid @else border-0 @enderror"
+				id="department_id" name="department_id" onchange="removeClassCmb(this);saveID(this);">
+				<option value="">Seleccione Departamento</option>
+				@foreach ($departments as $id => $nombre)
+					<option value="{{ $id }}">{{ $nombre }}</option>
+				@endforeach
+			</select>
+			@error('department_id') @include('partials.showError') @enderror
 		</div>
 		@unless($user->id)
 			<div class="form-group">
@@ -65,5 +79,7 @@
 				@error('password_confirmation') @include('partials.showError') @enderror
 			</div>
 		@endunless
+		<input type="hidden" id="opcType" name = "opcType" value="{{ old('opcType', $tipo)  }}">
+		<input type="hidden" id="valType" name = "valType" value="{{ old('valType', $valueTipo) }}">
 		<button class="btn btn-primary btn-lg btn-block">{{ $btnText }}</button>
 		<a class="btn btn-link btn-block" href="{{ route('user.index') }}">Cancelar</a>

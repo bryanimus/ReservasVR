@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Role;
 use App\Ministry;
+use App\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\SaveUserRequest;
@@ -25,20 +26,34 @@ class UserController extends Controller
     public function edit(User $user){
         $roles = Role::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         $ministries = Ministry::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $departments = Department::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $tipo = 1;
+        $valueTipo = $user->ministry_id;
+        if (is_null($valueTipo)) {
+            $tipo = '2';
+            $valueTipo = $user->department_id;
+        }
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
-            'ministries' => $ministries
+            'ministries' => $ministries,
+            'departments' => $departments,
+            'tipo' => $tipo,
+            'valueTipo' => $valueTipo
         ]);
     }
 
     public function create(){
         $roles = Role::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         $ministries = Ministry::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
+        $departments = Department::whereNull('estado')->orderBy('nombre')->pluck('nombre', 'id');
         return view('users.create', [
             'user' => new User,
             'roles' => $roles,
-            'ministries' => $ministries
+            'ministries' => $ministries,
+            'departments' => $departments,
+            'tipo' => '1',
+            'valueTipo' => ''
         ]);
     }
 

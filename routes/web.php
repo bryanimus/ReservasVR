@@ -51,6 +51,9 @@ Route::get('/resReserva','ReservaController@IndexResReserva')->name('reserva.res
 Route::get('/resReserva/{id}','ReservaController@showResReserva')->name('reserva.resShow');
 Route::patch('/resReserva/{id}','ReservaController@StoreResReserva')->name('reserva.storeResReserva');
 
+// Calendario
+Route::get('/calendario','CalendarController@index')->name('calendario.index');
+
 // Route::get('/portafolio','ProjectController@index')->name('projects.index');
 // Route::get('/portafolio/crear','ProjectController@create')->name('projects.create');
 // Route::get('/portafolio/{project}/editar','ProjectController@edit')->name('projects.edit');

@@ -8,12 +8,7 @@
     <script src="{{asset('js/app.js')}}" defer></script>
     <script src="{{asset('js/Scripts.js')}}" defer></script>
 
-    <!-- DatePicker-->
-    <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}">
-    <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.standalone.css')}}">
-
-    <!-- TimePicker-->
-    <link rel="stylesheet" href="{{asset('TimePicker/bootstrap-timepicker.min.css')}}">
+    @yield('styles')
 </head>
 <body>
 	<div id="app" class="d-flex flex-column h-screen justify-content-between">

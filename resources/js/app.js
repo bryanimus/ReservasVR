@@ -5,10 +5,6 @@
  */
 
 require('./bootstrap');
-require('./Jquery/jquery-3.4.1.min');
-require('./datePicker/js/bootstrap-datepicker');
-require('./datePicker/locales/bootstrap-datepicker.es.min');
-require('./TimePicker/bootstrap-timepicker.min');
 
 window.Vue = require('vue');
 
@@ -34,12 +30,3 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
-
-$('.datepicker').datepicker({
-	format: "dd/mm/yyyy",
-    language: "es",
-    autoclose: true,
-    startDate: "+1d"
- }).on('changeDate', function(ev){
- 		document.getElementById('fecha_reunion').classList.remove('is-invalid');
-    });;

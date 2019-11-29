@@ -30,17 +30,16 @@
 								</div>
 							</li>
 						@endif
-						@if (auth()->user()->accOperacion())
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Reservaciones</a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-									@if (auth()->user()->role->opcSolicitar) <a class="dropdown-item" href="{{ route('reserva.Init') }}">Solicitud de Reserva</a> @endif
-									@if (auth()->user()->role->opcAprobar) <a class="dropdown-item" href="{{ route('reserva.Index') }}">Aprobación de Reservas</a> @endif
-									@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="{{ route('reserva.resIndex') }}">Reservación de Reservas</a> @endif
-								</div>
-							</li>
-						@endif
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Reservaciones</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('calendario.index') }}">Calendario</a>
+								@if (auth()->user()->role->opcSolicitar) <a class="dropdown-item" href="{{ route('reserva.Init') }}">Solicitud de Reserva</a> @endif
+								@if (auth()->user()->role->opcAprobar) <a class="dropdown-item" href="{{ route('reserva.Index') }}">Aprobación de Reservas</a> @endif
+								@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="{{ route('reserva.resIndex') }}">Reservación de Reservas</a> @endif
+							</div>
+						</li>
 						@if (auth()->user()->accSeguridad())
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

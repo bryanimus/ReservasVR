@@ -1,8 +1,14 @@
 @extends('layout')
 
 @section('title','Solicitud de Reserva')
-
+@section('styles')
+	<link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.css')}}">
+    <link rel="stylesheet" href="{{asset('datePicker/css/bootstrap-datepicker3.standalone.css')}}">
+@endsection
 @section('scripts')
+	<script src="{{asset('Jquery/jquery-3.4.1.min.js')}}" defer></script>
+	<script src="{{asset('DatePicker/js/bootstrap-datepicker.js')}}" defer></script>
+	<script src="{{asset('DatePicker/locales/bootstrap-datepicker.es.min.js')}}" defer></script>
 	<script type="text/javascript" defer>
 		var addMinistries;
 		var minMaxPersons;
@@ -185,6 +191,17 @@
 			document.getElementById('musical_id').selectedIndex = 0;
 			document.getElementById('ministry_id').classList.remove('is-invalid');
 			document.getElementById('costo_evento').classList.remove('is-invalid');
+		}
+
+		window.onload = function (){
+			$('.datepicker').datepicker({
+				format: "dd/mm/yyyy",
+			    language: "es",
+			    autoclose: true,
+			    startDate: "+1d"
+			}).on('changeDate', function(ev){
+				document.getElementById('fecha_reunion').classList.remove('is-invalid');
+			});;
 		}
 	</script>
 @endsection
