@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
 	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h1 class="display-4 mb-0">Departamentos</h1>
+		<h1 class="display-5 mb-0">Departamentos</h1>
 		@auth
 			<a class="btn btn-primary" href="{{ route('department.create') }}">Crear</a>
 		@endauth

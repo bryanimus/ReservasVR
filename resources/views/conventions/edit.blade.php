@@ -9,7 +9,7 @@
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('convention.update', $convention) }}">
 				@method('PATCH')
-				<h1 class="display-4">Editar Centro de Convención</h1>
+				<h1 class="display-5">Editar Centro de Convención</h1>
 				<hr>
 				@include('conventions._form',
 					[

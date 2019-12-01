@@ -41,6 +41,13 @@
 								@if (auth()->user()->role->opcReserva) <a class="dropdown-item" href="{{ route('reserva.resIndex') }}">Reservación de Reservas</a> @endif
 							</div>
 						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Reportes</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('reporte.programacion') }}">Programación</a>
+							</div>
+						</li>
 						@if (auth()->user()->accSeguridad())
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

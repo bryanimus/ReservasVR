@@ -9,7 +9,7 @@
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('tiporeunion.update', $tiporeunion) }}">
 				@method('PATCH')
-				<h1 class="display-4">Editar Tipo Reunion</h1>
+				<h1 class="display-5">Editar Tipo Reunion</h1>
 				<hr>
 				@include('tiposreunion._form',
 					[

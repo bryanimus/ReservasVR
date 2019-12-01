@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function index()
     {
         return view('roles.index', [
-            'roles' => Role::whereNull('estado')->oldest('id')->paginate(10)
+            'roles' => Role::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 

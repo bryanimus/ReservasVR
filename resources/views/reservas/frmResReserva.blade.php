@@ -14,6 +14,7 @@
 		var addRowToTable;
 		var deleteRow;
 		var showDate;
+		var showFileName;
 
 		deleteRow = function(index, tblID){
 			var tbl = document.getElementById(tblID);
@@ -95,6 +96,9 @@
 			document.getElementById('hora_inicio').classList.remove('is-invalid'); document.getElementById('hora_fin').classList.remove('is-invalid');
 			document.getElementById('althorario').style.display = 'none';
 
+			if(document.getElementById('fileCot') != null)
+				document.getElementById('fileCot').classList.remove('is-invalid');
+
 			if (document.getElementById('tblsalon').rows.length == 1){ document.getElementById('salon').classList.add('is-invalid'); blnContinue = false;}
 			if (document.getElementById('chgDate').checked){
 				if (document.getElementById('fecha_reunion').value.trim() == ''){ document.getElementById('fecha_reunion').classList.add('is-invalid'); blnContinue = false;}
@@ -107,6 +111,8 @@
 					if (horaInicio >= horaFin) {document.getElementById('althorario').style.display = 'block';  blnContinue=false; }
 				}
 			}
+			if(document.getElementById('fileCot') != null)
+				if ($('#fileCot').val().trim() == ''){ document.getElementById('fileCot').classList.add('is-invalid'); blnContinue = false;}
 
 			if (blnContinue)
 				frmGestReserva.submit();
@@ -124,13 +130,23 @@
 				document.getElementById('fecha_reunion').classList.remove('is-invalid');
 			});;
 		}
+
+		showFileName = function(obj){
+			var fieldVal = $(obj).val();
+	        fieldVal = fieldVal.replace("C:\\fakepath\\", "");
+
+	        if (fieldVal != undefined || fieldVal != "") {
+	            $(obj).next(".custom-file-label").text(fieldVal);
+	            document.getElementById('fileCot').classList.remove('is-invalid')
+	        }
+		}
 	</script>
 @endsection
 @section('content')
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-sm-10 col-lg-10 mx-auto">
-			<form id="frmGestReserva" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reserva.storeResReserva', $reserva->ID_RESERVA) }}">
+			<form id="frmGestReserva" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reserva.storeResReserva', $reserva->ID_RESERVA) }}" enctype="multipart/form-data">
 				@method('PATCH')
 				@csrf
 
@@ -220,6 +236,18 @@
 						</div>
 					</div>
 				</div>
+
+				@if($reserva->TIPO_EVENTO == 2)
+					<div class="form-group">
+						<label for="fileCot">Cotización Evento <strong>(*)</strong></label>
+						<div class="input-group">
+							<div class="custom-file">
+								<input type="file" name="fileCot" class="custom-file-input" id="fileCot" onchange="showFileName(this);">
+								<label class="custom-file-label" for="fileCot" data-browse="Buscar"></label>
+							</div>
+						</div>
+					</div>
+				@endif
 
 				<div class="form-group">
 					<label for="observacion_reserva">Observaciones Reserva</label>

@@ -15,7 +15,7 @@ class ConventionController extends Controller
     public function index()
     {
     	return view('conventions.index', [
-            'conventions' => Convention::whereNull('estado')->oldest('id')->paginate(10)
+            'conventions' => Convention::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 

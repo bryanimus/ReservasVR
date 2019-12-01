@@ -9,7 +9,7 @@
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('ministry.update', $ministry) }}">
 				@method('PATCH')
-				<h1 class="display-4">Editar Ministerio</h1>
+				<h1 class="display-5">Editar Ministerio</h1>
 				<hr>
 				@include('ministries._form',
 					[

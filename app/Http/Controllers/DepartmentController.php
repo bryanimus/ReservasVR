@@ -16,7 +16,7 @@ class DepartmentController extends Controller
     public function index()
     {
     	return view('departments.index', [
-            'departments' => Department::whereNull('estado')->oldest('id')->paginate(10)
+            'departments' => Department::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 

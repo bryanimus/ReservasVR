@@ -150,18 +150,14 @@ class ReservaController extends Controller
     }
 
     public function StoreResReserva(SaveReserveRequest $request, Reserve $id){
-        $dataUpdate = [
-            'estado' => 4,
-            'priv_evento' => $request->privEvent,
-            'user_reserva_id' => auth()->user()->id,
-            'fecha_reserva' => now()->format('Ymd'),
-            'hora_reserva' => now()->format('Hi'),
-            'observacion_reserva' => $request->observacion_reserva
-        ];
-        $id->update($dataUpdate);
+        $reserve = Reserve::find($id->id);
 
-        for ($i = 0; $i < count($request->idSalon); $i++)
-            ReserveSalon::create([ 'reserve_id' => $id->id, 'salon_id' => $request->idSalon[$i] ]);
+        $reserve->estado = 4;
+        $reserve->priv_evento = $request->privEvent;
+        $reserve->user_reserva_id = auth()->user()->id;
+        $reserve->fecha_reserva = now()->format('Ymd');
+        $reserve->hora_reserva = now()->format('Hi');
+        $reserve->observacion_reserva = $request->observacion_reserva;
 
         if (isset($request->chgDate)){
             $fecha_reunion = $request->fecha_reunion;
@@ -169,13 +165,31 @@ class ReservaController extends Controller
             $hora_inicio = str_replace(":", "", $request->hora_inicio);
             $hora_fin = str_replace(":", "", $request->hora_fin);
 
-            $dataUpdate = [
-                'fecha_reunion' => $fecha_reunion,
-                'hora_inicio' => $hora_inicio,
-                'hora_fin' => $hora_fin
-            ];
-            $id->update($dataUpdate);
+            $reserve->fecha_reunion = $fecha_reunion;
+            $reserve->hora_inicio = $hora_inicio;
+            $reserve->hora_fin = $hora_fin;
         }
+
+        $isFileUPD = false;
+        if (isset($request->fileCot))
+            if ($request->hasfile('fileCot')){
+                $image = $request->file('fileCot');
+                $fileName = $image->getClientOriginalName();
+                $new_name =  auth()->user()->id . '_' . now()->format('Ymd') . '.' . now()->format('His') . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('Files'), $new_name);
+
+                $reserve->NOMBRE_ARCHIVO = $fileName;
+                $reserve->ARCHIVO = $new_name;
+                $isFileUPD = true;
+            }
+
+        $reserve->save();
+        //if ($isFileUPD)
+        //    unlink(public_path('Files') . '\\' . $new_name);
+
+        for ($i = 0; $i < count($request->idSalon); $i++)
+            ReserveSalon::create([ 'reserve_id' => $id->id, 'salon_id' => $request->idSalon[$i] ]);
+
         return redirect()->route('reserva.resIndex')->with('status','Se ha reservado la reserva');
     }
 
@@ -188,5 +202,11 @@ class ReservaController extends Controller
     public function delMiReserva(Reserve $reserve){
         $reserve->update(['estado' => 7]);
         return redirect()->route('reserva.miIndex')->with('status','La Reserva fue Eliminada con Éxito');
+    }
+
+    public function download(){
+        $reserve = Reserve::find(6);
+        $download = public_path('Files') . '\\' . $reserve->ARCHIVO;
+        return response()->download($download);
     }
 }

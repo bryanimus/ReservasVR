@@ -8,7 +8,7 @@
 		<div class="col-12 col-sm-10 col-lg-6 mx-auto">
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('salon.store') }}">
-				<h1 class="display-4">Nuevo Salón</h1>
+				<h1 class="display-5">Nuevo Salón</h1>
 				<hr>
 				@include('salones._form',
 					[

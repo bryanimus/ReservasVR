@@ -21,7 +21,7 @@ class ResourceController extends Controller
     {
         if (!$request->has('tipo'))
             return view('resources.index', [
-                'resources' => Resource::whereNull('estado')->oldest('id')->paginate(10),
+                'resources' => Resource::whereNull('estado')->orderBy('tipo')->orderBy('nombre')->oldest('id')->paginate(10),
                 'TipoFilter' => 0, 'Pag' => 10
             ]);
         else

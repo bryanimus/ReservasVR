@@ -9,7 +9,7 @@
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('role.update', $role) }}">
 				@method('PATCH')
-				<h1 class="display-4">Editar Rol</h1>
+				<h1 class="display-5">Editar Rol</h1>
 				<hr>
 				@include('roles._form',
 					[

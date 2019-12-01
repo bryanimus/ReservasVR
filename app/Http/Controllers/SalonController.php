@@ -16,7 +16,7 @@ class SalonController extends Controller
     public function index()
     {
     	return view('salones.index', [
-            'salones' => Salon::whereNull('estado')->oldest('id')->paginate(10)
+            'salones' => Salon::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 

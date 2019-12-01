@@ -15,7 +15,7 @@ class ReunionTypeController extends Controller
     public function index()
     {
         return view('tiposreunion.index', [
-            'tiposreunion' => ReunionType::whereNull('estado')->oldest('id')->paginate(10)
+            'tiposreunion' => ReunionType::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 

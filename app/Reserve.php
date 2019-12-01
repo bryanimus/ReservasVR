@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class Reserve extends Model
 {
     protected $guarded = [];
@@ -13,8 +13,9 @@ class Reserve extends Model
         return $this->belongsTo(Convention::class);
     }
 
-    public function salon(){
-        return $this->belongsTo(Salon::class);
+    public function salonesReserva(){
+        $salones = DB::table('vRESERVASALON')->where('RESERVE_ID', $this->id)->orderBy('SALON')->get();
+        return $salones;
     }
 
     public function descEstado()

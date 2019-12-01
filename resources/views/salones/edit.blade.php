@@ -9,7 +9,7 @@
 			<form class="bg-white py-3 px-4 shadow rounded"
 				method="POST" action="{{ route('salon.update', $salon) }}">
 				@method('PATCH')
-				<h1 class="display-4">Editar Salón</h1>
+				<h1 class="display-5">Editar Salón</h1>
 				<hr>
 				@include('salones._form',
 					[

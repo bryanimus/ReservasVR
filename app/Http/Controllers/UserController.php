@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
     	return view('users.index', [
-            'users' => User::whereNull('estado')->oldest('id')->paginate(10)
+            'users' => User::whereNull('estado')->orderBy('name')->oldest('id')->paginate(10)
         ]);
     }
 

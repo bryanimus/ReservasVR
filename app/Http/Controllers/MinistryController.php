@@ -16,7 +16,7 @@ class MinistryController extends Controller
     public function index()
     {
         return view('ministries.index', [
-            'ministries' => Ministry::whereNull('estado')->oldest('id')->paginate(10)
+            'ministries' => Ministry::whereNull('estado')->orderBy('nombre')->oldest('id')->paginate(10)
         ]);
     }
 
