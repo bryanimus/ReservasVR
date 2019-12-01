@@ -5,6 +5,8 @@ use App\Convention;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Excel;
+use App\Exports\ReportsExport;
 
 class ReportController extends Controller
 {
@@ -24,6 +26,16 @@ class ReportController extends Controller
 
     public function filterImpInd(){
     	return view('reports.fltImpInd');
+    }
+
+    public function filterEvent(){
+        $conventions = Convention::whereNull('estado');//->orderBy('nombre')->pluck('nombre', 'id');
+        if(auth()->user()->role->isAdmin != 1)
+            $conventions = $conventions->where('id', auth()->user()->getConvention());
+        $conventions = $conventions->orderBy('nombre')->pluck('nombre', 'id');
+        return view('reports.fltEvent', [
+            'conventions' => $conventions
+        ]);
     }
 
     public function showProgram(Request $request){
@@ -76,5 +88,28 @@ class ReportController extends Controller
     	//return view('reports.idxImpInd', $dataSend);
 
     	return PDF::loadView('reports.idxImpInd', $dataSend)->download('Impresion_Individual_' . $request->reserve_id . '.pdf');
+    }
+
+    public function showEvent(Request $request){
+        $reservas = DB::table('vRESERVA');
+
+        if(!is_null($request->convention_id))
+            $reservas = $reservas->where('CONVENTION_ID', $request->convention_id);
+        elseif (auth()->user()->role->isAdmin != 1)
+            $reservas = $reservas->where('CONVENTION_ID', auth()->user()->getConvention());
+
+        if(!is_null($request->reserve_id))
+            $reservas = $reservas->where('ID_RESERVA', $request->reserve_id);
+
+        if(!is_null($request->estado))
+            $reservas = $reservas->where('ESTADO', $request->estado);
+
+        $reservas = $reservas->orderBy('FECHA_REUNION_INT')->orderBy('HORA_INICIO')->get();
+        $dataSend = ['reserves' => $reservas];
+
+        //return view('reports.idxEvent', $dataSend);
+
+        return Excel::download(new ReportsExport($reservas), 'Eventos.xlsx');
+
     }
 }
