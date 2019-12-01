@@ -45,6 +45,7 @@
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Reportes</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('reporte.impresionInd') }}">Impresión Individual</a>
 								<a class="dropdown-item" href="{{ route('reporte.programacion') }}">Programación</a>
 							</div>
 						</li>

@@ -22,6 +22,10 @@ class ReportController extends Controller
         ]);
     }
 
+    public function filterImpInd(){
+    	return view('reports.fltImpInd');
+    }
+
     public function showProgram(Request $request){
     	$reservas = DB::table('vRESERVA')->where('ESTADO', '4');
     	$conventionDESC = '';
@@ -56,5 +60,21 @@ class ReportController extends Controller
     	//return view('reports.idxProgram', $dataSend);
 
         return PDF::loadView('reports.idxProgram', $dataSend)->download('Programacion.pdf');
+    }
+
+    public function showimpresionInd(Request $request){
+    	$reservas = DB::table('vRESERVA')->where('ID_RESERVA', $request->reserve_id)->first();
+    	if (!is_null($reservas)){
+    		$reservaSalon = DB::table('vRESERVASALON')->select('SALON')->where('RESERVE_ID', $reservas->ID_RESERVA)->orderBy('SALON')->get();
+    		$reservaResource = DB::table('vRESERVARESOURCE')->select('CANTIDAD', 'RECURSO', 'RECURSO_DESC', 'TIPO')->where('RESERVE_ID', $reservas->ID_RESERVA)->orderBy('TIPO')->orderBy('RECURSO')->get();
+
+    		$reservas->SALONES = $reservaSalon;
+    		$reservas->RECURSOS = $reservaResource;
+    	}
+    	$dataSend = ['reserves' => $reservas, 'ID' => $request->reserve_id];
+
+    	//return view('reports.idxImpInd', $dataSend);
+
+    	return PDF::loadView('reports.idxImpInd', $dataSend)->download('Impresion_Individual_' . $request->reserve_id . '.pdf');
     }
 }

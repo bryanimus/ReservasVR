@@ -61,6 +61,8 @@ Route::get('/calendario','CalendarController@index')->name('calendario.index');
 // Reportes
 Route::get('/programacion','ReportController@filterProgram')->name('reporte.programacion');
 Route::post('/programacion','ReportController@showProgram')->name('reporte.showprogramacion');
+Route::get('/impresionInd','ReportController@filterImpInd')->name('reporte.impresionInd');
+Route::post('/impresionInd','ReportController@showimpresionInd')->name('reporte.showimpresionInd');
 
 // Route::get('/portafolio','ProjectController@index')->name('projects.index');
 // Route::get('/portafolio/crear','ProjectController@create')->name('projects.create');
