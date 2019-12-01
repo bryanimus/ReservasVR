@@ -35,6 +35,10 @@ Route::patch('/role/updateState/{role}','RoleController@updateState')->name('rol
 Route::patch('/user/updateState/{user}','UserController@updateState')->name('user.updateState');
 Route::patch('/department/updateState/{department}','DepartmentController@updateState')->name('department.updateState');
 
+// Mis Reservas
+Route::get('/mireserva','ReservaController@misInit')->name('reserva.miIndex');
+Route::patch('/mireserva/delMiReserva/{reserve}','ReservaController@delMiReserva')->name('reserva.delMiReserva');
+
 // Solicitud Reservas
 Route::get('/reserva','ReservaController@Init')->name('reserva.Init');
 Route::post('/reserva','ReservaController@Store')->name('reserva.store');

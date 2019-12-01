@@ -178,4 +178,15 @@ class ReservaController extends Controller
         }
         return redirect()->route('reserva.resIndex')->with('status','Se ha reservado la reserva');
     }
+
+    public function misInit(){
+        return view('reservas.miIndex', [
+            'reserves' => Reserve::where('user_id', auth()->user()->id)->oldest('id')->paginate(10)
+        ]);
+    }
+
+    public function delMiReserva(Reserve $reserve){
+        $reserve->update(['estado' => 7]);
+        return redirect()->route('reserva.miIndex')->with('status','La Reserva fue Eliminada con Éxito');
+    }
 }

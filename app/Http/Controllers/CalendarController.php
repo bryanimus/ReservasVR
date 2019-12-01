@@ -15,7 +15,7 @@ class CalendarController extends Controller
         if(auth()->user()->role->visEvenPriv != 1)
             $reserva = $reserva->where('PRIV_EVENTO', 2);
         if(auth()->user()->role->isAdmin != 1)
-            $reserva = $reserva->where('PRIV_EVENTO', 2);
+            $reserva = $reserva->where('CONVENTION_ID', auth()->user()->getConvention());
         $reserva = $reserva->get();
 
         $data = array();

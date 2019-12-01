@@ -32,6 +32,19 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function getConvention(){
+        $convention_id = 0;
+        if (!is_null($this->ministry_id)) {
+            $record = Ministry::select('convention_id')->where('id', $this->ministry_id)->first();
+            $convention_id = $record->convention_id;
+        } elseif (!is_null($this->department_id)) {
+            $record = Department::select('convention_id')->where('id', $this->department_id)->first();
+            $convention_id = $record->convention_id;
+        }
+
+        return $convention_id;
+    }
+
     public function accOpcion($opcion){
         $accOpcion = false;
         if ($this->role_id){
