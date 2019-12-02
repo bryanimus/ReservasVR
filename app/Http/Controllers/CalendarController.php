@@ -29,7 +29,10 @@ class CalendarController extends Controller
 				'start'   => $value->EVENTO_INICIO,
 				'end'   => $value->EVENTO_FIN,
                 'color' => $color,
-                'textColor' => 'white'
+                'textColor' => 'white',
+                'convention' => $value->CONVENCION,
+                'user_encargado' => $value->USUARIO_ENCARGADO,
+                'fecha_hora' => $value->FECHA_REUNION . ' ' . $value->HORA_INICIO . ' a ' . $value->HORA_FIN
     		];
     	}
 
