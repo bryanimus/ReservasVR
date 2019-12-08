@@ -25,7 +25,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-sm-10 col-lg-10 mx-auto">
-			<form id="fltImpInd" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reporte.showimpresionInd') }}">
+			<form id="fltImpInd" class="bg-white py-3 px-4 shadow rounded" method="POST" target="_blank"  action="{{ route('reporte.showimpresionInd') }}">
 				@csrf
 				<h2>Impresión Individual</h2>
 				<hr>

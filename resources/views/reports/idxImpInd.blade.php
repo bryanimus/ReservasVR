@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Impresión Individual</title>
 	<style type="text/css">
 		br {
             display: block; /* makes it have a width */
@@ -17,7 +17,7 @@
 </head>
 <body>
 	<form>
-		<center><h1>Impresión Reserva: {{ $ID }}</h1></center>
+		<center><img src="{{ asset('img/Logotipo.png') }}" alt="Gestion Reservas"><h1>Impresión Reserva: {{ $ID }}</h1></center>
 		<hr>
 		@if(!is_null($reserves))
 			<u><h2>Fecha Reservación: {{ $reserves->FECHA_REUNION }} </h2><br></u>

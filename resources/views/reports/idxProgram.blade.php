@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Programación</title>
 	<style type="text/css">
 		br {
             display: block; /* makes it have a width */
@@ -17,7 +17,7 @@
 </head>
 <body>
 	<form>
-		<center><h1>Programación</h1></center>
+		<center><img src="{{ asset('img/Logotipo.png') }}" alt="Gestion Reservas"><h1>Programación</h1></center>
 		<br>
 		<center>Filtrado por: {{ $fecha_inicio }} al {{ $fecha_final }}</center>
 		@if (!is_null($convention))

@@ -57,7 +57,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12 col-sm-10 col-lg-10 mx-auto">
-			<form id="fltProgram" class="bg-white py-3 px-4 shadow rounded" method="POST" action="{{ route('reporte.showprogramacion') }}">
+			<form id="fltProgram" class="bg-white py-3 px-4 shadow rounded" method="POST" target="_blank"  action="{{ route('reporte.showprogramacion') }}">
 				@csrf
 				<h2>Programación</h2>
 				<hr>

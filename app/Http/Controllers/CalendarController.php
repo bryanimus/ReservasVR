@@ -11,9 +11,22 @@ class CalendarController extends Controller
     }
 
     public function index(){
-    	$reserva = DB::table('vRESERVA')->where('estado', '4');
+    	/*$reserva = DB::table('vRESERVA')->where('estado', '4');
         if(auth()->user()->role->visEvenPriv != 1)
             $reserva = $reserva->where('PRIV_EVENTO', 2);
+        if(auth()->user()->role->isAdmin != 1)
+            $reserva = $reserva->where('CONVENTION_ID', auth()->user()->getConvention());
+        $reserva = $reserva->get();
+*/
+        $reserva = DB::table('vRESERVA')
+                    ->Where(function($q) {
+                        $q->where('estado', '1')
+                        ->orWhere(function($q1){
+                            $q1->where('estado', '4');
+                            if(auth()->user()->role->visEvenPriv != 1)
+                                $q1 = $q1->where('PRIV_EVENTO', 2);
+                        });
+                    });
         if(auth()->user()->role->isAdmin != 1)
             $reserva = $reserva->where('CONVENTION_ID', auth()->user()->getConvention());
         $reserva = $reserva->get();
@@ -21,7 +34,8 @@ class CalendarController extends Controller
         $data = array();
     	foreach($reserva as $value){
             $color = 'green';
-            if ($value->PRIV_EVENTO == 1) $color='purple';
+            if ($value->PRIV_EVENTO == 1) $color='blue';
+            if ($value->ESTADO == 1) $color='grey';
 
     		$data[] = [
     			'id'   => $value->ID_RESERVA,

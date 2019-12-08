@@ -47,6 +47,8 @@ class ReservaController extends Controller
         $fecha_reunion = substr($fecha_reunion,6,4) . substr($fecha_reunion,3,2) . substr($fecha_reunion,0,2);
         $hora_inicio = str_replace(":", "", $request->hora_inicio);
         $hora_fin = str_replace(":", "", $request->hora_fin);
+        $estado = 1;
+        if ($request->typeEvent == "2") $estado = 3;
 
         $dataInsert = [
             'nombre' => $request->nombre,
@@ -64,7 +66,7 @@ class ReservaController extends Controller
             'hora_fin' => $hora_fin,
             'fecha_solicitud' => now()->format('Ymd'),
             'hora_solicitud' => now()->format('Hi'),
-            'estado' => 1,
+            'estado' => $estado,
             'cantidad_persona' => $request->cantidad_persona,
             'montaje_id' => $request->montaje_id,
             'manteleria_id' => $request->manteleria_id,

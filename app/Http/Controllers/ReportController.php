@@ -71,7 +71,7 @@ class ReportController extends Controller
 
     	//return view('reports.idxProgram', $dataSend);
 
-        return PDF::loadView('reports.idxProgram', $dataSend)->download('Programacion.pdf');
+        return PDF::loadView('reports.idxProgram', $dataSend)->stream('Programacion.pdf');
     }
 
     public function showimpresionInd(Request $request){
@@ -87,7 +87,7 @@ class ReportController extends Controller
 
     	//return view('reports.idxImpInd', $dataSend);
 
-    	return PDF::loadView('reports.idxImpInd', $dataSend)->download('Impresion_Individual_' . $request->reserve_id . '.pdf');
+    	return PDF::loadView('reports.idxImpInd', $dataSend)->stream('Impresion_Individual_' . $request->reserve_id . '.pdf');
     }
 
     public function showEvent(Request $request){
