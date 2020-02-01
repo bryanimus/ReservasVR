@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Carbon;
 use App\Http\Requests\SaveReserveRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MsgSolicitudReceived;
 
 class ReservaController extends Controller
 {
@@ -90,6 +92,11 @@ class ReservaController extends Controller
         if (isset($request->idalimento))
             for ($i = 0; $i < count($request->idalimento); $i++)
                 ReserveResource::create([ 'reserve_id' => $rowReserve->id, 'resource_id' => $request->idalimento[$i], 'cantidad' => $request->numalimento[$i] ]);
+
+        $dataMail = [
+            'id' => $rowReserve->id, 'nombre' => $request->nombre
+        ];
+        //Mail::to(auth()->user()->email)->send(new MsgSolicitudReceived($dataMail));
 
         return redirect()->route('home')->with('status','Su Reserva Ha Sido Creada con Éxito');
     }

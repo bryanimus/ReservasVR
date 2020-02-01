@@ -10,7 +10,7 @@
 			<p>En el presente sistema, usted podrá gestionar los distintos eventos de la Iglesia Vida Real</p>
 		</div>
 		<div class="col-12 col-lg-6">
-			<img class="img-fluid mb-4" src="/img/Reserva.svg" alt="Gestion Reservas">
+			<img class="img-fluid mb-4" src="{{ asset('img/Reserva.svg') }}" alt="Gestion Reservas">
 		</div>
 	</div>
 </div>

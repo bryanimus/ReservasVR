@@ -375,7 +375,7 @@
 					</div>
 					<div class="form-group col-md-2">
 						<label for="cntReq_Tecnico">Cantidad</label>
-						<input class="form-control" type="number" name="cntReq_Tecnico" id="cntReq_Tecnico" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
+						<input class="form-control" type="number" name="cntReq_Tecnico" id="cntReq_Tecnico" min="1" max="999" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 					</div>
 					<div class="form-group col-md-1">
 						<label for="addReq_Tecnico"></label>
@@ -401,7 +401,7 @@
 					</div>
 					<div class="form-group col-md-2">
 						<label for="cntcristaleria">Cantidad</label>
-						<input class="form-control" type="number" name="cntcristaleria" id="cntcristaleria" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
+						<input class="form-control" type="number" name="cntcristaleria" id="cntcristaleria" min="1" max="999" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 					</div>
 					<div class="form-group col-md-1">
 						<label for="addcristaleria"></label>
@@ -428,7 +428,7 @@
 					</div>
 					<div class="form-group col-md-2">
 						<label for="cntalimento">Cantidad</label>
-						<input class="form-control" type="number" name="cntalimento" id="cntalimento" min="1" max="50" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
+						<input class="form-control" type="number" name="cntalimento" id="cntalimento" min="1" max="999" value="1" oninput="limitNumberMax(this);" onfocusout="limitNumberMin(this);">
 					</div>
 					<div class="form-group col-md-1">
 						<label for="addalimento"></label>

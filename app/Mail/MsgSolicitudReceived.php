@@ -7,19 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MessageReceived extends Mailable
+class MsgSolicitudReceived extends Mailable
 {
     use Queueable, SerializesModels;
     public $subject = "Mensaje Recibido";
     public $msg;
+    public $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mensaje)
+    public function __construct($data)
     {
-        $this->msg = $mensaje;
+        $this->data = $data;
     }
 
     /**
@@ -29,6 +30,6 @@ class MessageReceived extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.message-received');
+        return $this->view('emails.Solicitud', $this->data);
     }
 }

@@ -17,6 +17,17 @@ class CreateRolesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->text('descripcion');
+			$table->integer('estado');
+			$table->boolean('accCentConv')->default(false);
+            $table->boolean('accSalones')->default(false);
+            $table->boolean('accTipoReunion')->default(false);
+            $table->boolean('accRecurso')->default(false);
+            $table->boolean('accRol')->default(false);
+            $table->boolean('accUsuario')->default(false);
+            $table->boolean('opcReserva')->default(false);
+            $table->boolean('opcAprobar')->default(false);
+			$table->boolean('opcSolicitar')->default(false);
+			$table->boolean('visEvenPriv')->default(false);
             $table->timestamps();
         });
     }
